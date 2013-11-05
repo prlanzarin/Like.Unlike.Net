@@ -11,4 +11,5 @@ TODO
     
     
 DONE
-  1 -
+  1 - Árvore R-N para estrutura geral
+  
