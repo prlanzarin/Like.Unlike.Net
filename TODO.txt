@@ -1,0 +1,14 @@
+/* A ser atualizado conforme cada etapa for concluída */
+
+TODO
+
+  1 - Definir estrutura(s) de dados da aplicação
+  2 - Habilitar leitura de arquivos de entrada 
+    2.1 - 
+  3 - Implementar funções
+    3.2 -
+    
+    
+    
+DONE
+  1 -
