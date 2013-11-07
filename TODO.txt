@@ -4,9 +4,15 @@ TODO
 
   1 - Definir estrutura(s) de dados da aplicação no header
   2 - Implementar funções
-    
-    
-    
+    	2.1 INSERE USUÁRIO - PAULO
+	2.2 INSERE AMIGOS - PAULO
+	2.3 EXIBE AMIGOS - PAULO
+	2.4 RANKING POPULAR CIRCULO - PAULO
+
+	2.5 EXIBE USUÁRIOS ORDEM ALFABÉTICA E INVERSA - LUIS
+	2.6 POST - LUIS
+    	2.7 EXIBE PAINEL - LUIS
+    	2.8 RANKING POPULAR - LUIS
 DONE
   1 - Árvore R-N para estrutura geral
   2 - Função de leitura de arquivo implementada
