@@ -1,0 +1,12 @@
+i miro_bonacera
+i herman_nunes
+i hector_morales
+e 2 0
+e 1 15
+a miro_bonacera herman_nunes 1
+a miro_bonacera hector_morales 2
+m miro_bonacera 2 0
+t miro_bonacera "Bonjorno otários!" 2
+t herman_nunes "Estoy tomando una marguerita com mi hermosa chica" 1
+p hermam_nunes 0 0
+r 0 0
