@@ -1,2 +1,0 @@
-
-void getOperation(FILE *arq);
