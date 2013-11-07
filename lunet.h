@@ -1,1 +1,2 @@
-//header
+
+void getOperation(FILE *arq);
