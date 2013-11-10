@@ -1,12 +1,16 @@
 struct post {
-    char string[500];
+    char usrName[50];
+    char msg[500];
     int visi;
 };
 typedef struct post Post;
 
 
-struct postStack {
+struct postList {
     Post post;
-    struct postStack *next;
+    struct postList *next;
 };
-typedef struct postStack PostStack;
+typedef struct postList PostList;
+
+PostList* plInicialize();
+PostList* plInsert(PostList*, char[50], char[500], int);
