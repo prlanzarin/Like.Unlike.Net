@@ -1,8 +1,7 @@
 /* A ser atualizado conforme cada etapa for concluída */
 
 TODO
-
-  1 - Definir estrutura(s) de dados da aplicação no header
+  1 - Definir funções em structuser.c
   2 - Implementar funções
     	2.1 INSERE USUÁRIO - PAULO
 	2.2 INSERE AMIGOS - PAULO
@@ -16,3 +15,4 @@ TODO
 DONE
   1 - Árvore R-N para estrutura geral
   2 - Função de leitura de arquivo implementada
+  3 - Definir estrutura(s) de dados da aplicação no header
