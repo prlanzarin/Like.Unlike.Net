@@ -4,8 +4,8 @@
 struct user {
   char nome[50];
   struct friendList *like, *unlinke;
-}
-  ;
+};
+
 typedef struct user User;
 
 /* base de usuários: árvore Rubro-Negra */
