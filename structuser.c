@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structuser.h"
+#include <string.h>
 
 // R-N
 UserTree* Insere(UserTree* tree, char name[]) {
@@ -67,32 +68,32 @@ User* aUser;
 
 // procura um usuário pelo nome
 // retorna 1 se achar, se não retorna 0
-int Consulta(char name[NAME_SIZE], UserTree* t){
+int Consulta(char name[], UserTree* tree){
     int cmp;
 
-    if( t == NodoNULL ) return 0;
-    cmp = strncmp(name, t->aUser->name, NAME_SIZE);     // compara nome do usuário com palavra da busca
+    if( tree == NodoNULL ) return 0;
+    cmp = strncmp(name, tree->aUser->name, NAME_SIZE);     // compara nome do usuário com palavra da busca
     if(cmp == 0) return 1;
-    else if( cmp < 0 ) return Consulta( x, t->esq );
-        else if( cmp > 0 ) return Consulta( x, t->dir );
+    else if( cmp < 0 ) return Consulta( name, tree->esq );
+        else if( cmp > 0 ) return Consulta( name, tree->dir );
             else return 0;
-}
+};
 
 UserTree* Remove(UserTree* tree, char name[])
 {
-  RNtree* x = t;
-  RNtree* y;
-  RNtree* p = x->pai;
-  RNtree* v = p->pai;
+  UserTree* x = tree;
+  UserTree* y;
+  UserTree* p = x->pai;
+  UserTree* v = p->pai;
   
   strcpy(NodoNULL->aUser->name, name);
-  while((strcmp(x->aUser->name, name) != 0)  /* desce na árvore */
+  while((strcmp(x->aUser->name, name) != 0))  /* desce na árvore */
   {
    v = p; p = x;
    if(strcmp(name,x->aUser->name) < 0) x = x->esq;
    else x = x->dir;
   };
-  if(x == NodoNULL) return t;
+  if(x == NodoNULL) return tree;
   if(x->red) // nodo é vermelho
   {
     if((x->esq == NodoNULL) && (x->dir == NodoNULL)) // nodo folha
@@ -100,18 +101,18 @@ UserTree* Remove(UserTree* tree, char name[])
       if((strcmp(x->aUser->name, p->aUser->name) < 0)) p->esq = NodoNULL;
       else p->dir = NodoNULL;
       free(x);
-      return t;
+      return tree;
     };
     if((strcmp(x->aUser->name,p->aUser->name) < 0)) 
     {
-     y = Menor(t->dir);
+     y = Menor(tree->dir);
      p->esq = y;
      y->esq = x->esq;
      y->dir = x->dir;
      free(x);
     } else
       {
-        y = Maior(t->esq);
+        y = Maior(tree->esq);
         p->dir = y;
         y->dir = x->dir;
         y->esq = x->esq;
@@ -127,14 +128,14 @@ UserTree* Remove(UserTree* tree, char name[])
         if(p->red) p->red = 0; // troca a cor do pai 
         else p->red = 1;
         p->dir->red = 1; // troca a cor do irmao 
-        y = Menor(t->dir);
+        y = Menor(tree->dir);
         p->esq = y;
         y->esq = x->esq;
         y->dir = x->dir;
         free(x);
       } else if ((p->dir->red == 0) && ((x->esq->red != 0) || (x->dir->red != 0)))
         {
-         y = Menor(t->dir);
+         y = Menor(tree->dir);
          p->esq = y;
          y->esq = x->esq;
          y->dir = x->dir;
@@ -146,7 +147,7 @@ UserTree* Remove(UserTree* tree, char name[])
           {
             if(p->dir->red) 
             {
-               y = Menor(t->dir);
+               y = Menor(tree->dir);
                p->esq = y;
                y->esq = x->esq;
                y->dir = x->dir;
@@ -161,14 +162,14 @@ UserTree* Remove(UserTree* tree, char name[])
         if(p->red) p->red = 0; // troca a cor do pai 
         else p->red = 1;
         p->dir->red = 1; // troca a cor do irmao 
-        y = Maior(t->esq);
+        y = Maior(tree->esq);
         p->dir = y;
         y->dir = x->dir;
         y->esq = x->esq;
         free(x);
       } else if ((p->dir->red == 0) && ((x->esq->red != 0) || (x->dir->red != 0)))
         {
-         y = Maior(t->esq);
+         y = Maior(tree->esq);
         p->dir = y;
         y->dir = x->dir;
         y->esq = x->esq;
@@ -180,7 +181,7 @@ UserTree* Remove(UserTree* tree, char name[])
           {
             if(p->esq->red) 
             {
-               y = Maior(t->esq);
+               y = Maior(tree->esq);
                p->dir = y;
                y->dir = x->dir;
                y->esq = x->esq;
@@ -190,8 +191,8 @@ UserTree* Remove(UserTree* tree, char name[])
           };
     };
   };
-  VerificaRN(t,name); 
-  return t;
+  VerificaRN(tree,name); 
+  return tree;
 }
 
 void Destroi(UserTree* tree) {
@@ -201,9 +202,9 @@ void Destroi(UserTree* tree) {
 // R-N, auxiliares
 UserTree* VerificaRN(UserTree* t, char name[])
 {
-  RNtree* x = t;
-  RNtree* p = x->pai;
-  RNtree* v = p->pai;
+  UserTree* x = t;
+  UserTree* p = x->pai;
+  UserTree* v = p->pai;
   while((strcmp(x->aUser->name, name)) != 0)  /* desce na árvore */
   {
     v = p; p = x;
