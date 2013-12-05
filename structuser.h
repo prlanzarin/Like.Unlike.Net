@@ -4,7 +4,7 @@
 /* informações do usuário */
 struct user {
   char name[NAME_SIZE];
-  struct UserTree *like, *unlinke;
+  struct UserTree *like, *unlike;
 };
 
 typedef struct user User;
@@ -38,7 +38,7 @@ static UserTree* NodoNULL = NULL;
 
 // R-N
 UserTree* Insere(UserTree* tree, char name[]);
-int Consulta(int x, UserTree* tree);
+int Consulta(char name[], UserTree* tree);
 UserTree* Remove(UserTree* tree, char name[]);
 void Destroi(UserTree* tree);
 
