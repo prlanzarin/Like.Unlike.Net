@@ -65,9 +65,24 @@ User* aUser;
             return VerificaRN(tree, name);
 };
 
-int Consulta(int x, UserTree* tree);
+// procura um usuário pelo nome
+// retorna 1 se achar, se não retorna 0
+int Consulta(char name[NAME_SIZE], UserTree* t){
+    int cmp;
+
+    if( t == NodoNULL ) return 0;
+    cmp = strncmp(name, t->aUser->name, NAME_SIZE);     // compara nome do usuário com palavra da busca
+    if(cmp == 0) return 1;
+    else if( cmp < 0 ) return Consulta( x, t->esq );
+        else if( cmp > 0 ) return Consulta( x, t->dir );
+            else return 0;
+}
+
 UserTree* Remove(UserTree* tree, char name[]);
-void Destroi(UserTree* tree);
+
+void Destroi(UserTree* tree) {
+
+}
 
 // R-N, auxiliares
 UserTree* VerificaRN(UserTree* t, char name[]);
