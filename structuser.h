@@ -1,9 +1,10 @@
+#define NAME_SIZE 50
 // base de dados geral
 
 /* informações do usuário */
 struct user {
-  char nome[50];
-  struct friendList *like, *unlinke;
+  char name[NAME_SIZE];
+  struct UserTree *like, *unlinke;
 };
 
 typedef struct user User;
@@ -12,43 +13,43 @@ typedef struct user User;
 
 struct userTree {
   User *aUser;         // chave da árvore: aUser->nome
-  int red;
+  int red;              // cor do nó
   struct userTree *esq;
   struct userTree *dir;
   struct userTree *pai;
-}; 
+};
 
-typedef struct userTree userBase;
+typedef struct userTree UserTree;
 
 
 /* lista de amigos de um usuário */
 struct friendList {
-  User *pUser;
-  int appearances;
-  struct friendList *next;
+  User *pUser;              // ponteiro para usuário
+  int appearances;         // quantas vezes aparece
+  struct friendList *next;  // próximo elemento
 };
 
 typedef struct friendList FriendList;
 
 /* declaração do nodo NULL */
-static userBase* NodoNULL = NULL;
+static UserTree* NodoNULL = NULL;
 
 /* funções das estruturas definidas */
 
 // R-N
-userBase* Insere(userBase* user, char key[]);
-int Consulta(int x, userBase* user);
-userBase* Remove(userBase* user, char key[]);
-void Destroi(userBase* user);
+UserTree* Insere(UserTree* tree, char name[]);
+int Consulta(int x, UserTree* tree);
+UserTree* Remove(UserTree* tree, char name[]);
+void Destroi(UserTree* tree);
 
 // R-N, auxiliares
 
-userBase* VerificaRN(userBase* user, char key[]);
-userBase* RotacaoSimplesEsq(userBase* user);
-userBase* RotacaoSimplesDir(userBase* user);
-void Desenha(userBase* user, int nivel);
-userBase* Maior(userBase* user);
-userBase* Menor(userBase* user);
+UserTree* VerificaRN(UserTree* tree, char name[]);
+UserTree* RotacaoSimplesEsq(UserTree* tree);
+UserTree* RotacaoSimplesDir(UserTree* tree);
+void Desenha(UserTree* tree, int nivel);
+UserTree* Maior(UserTree* tree);
+UserTree* Menor(UserTree* tree);
 
 // LSE
 
