@@ -80,7 +80,118 @@ int Consulta(char name[NAME_SIZE], UserTree* t){
 
 UserTree* Remove(UserTree* tree, char name[])
 {
-
+  RNtree* x = t;
+  RNtree* y;
+  RNtree* p = x->pai;
+  RNtree* v = p->pai;
+  
+  strcpy(NodoNULL->aUser->name, name);
+  while((strcmp(x->aUser->name, name) != 0)  /* desce na árvore */
+  {
+   v = p; p = x;
+   if(strcmp(name,x->aUser->name) < 0) x = x->esq;
+   else x = x->dir;
+  };
+  if(x == NodoNULL) return t;
+  if(x->red) // nodo é vermelho
+  {
+    if((x->esq == NodoNULL) && (x->dir == NodoNULL)) // nodo folha
+    {
+      if((strcmp(x->aUser->name, p->aUser->name) < 0)) p->esq = NodoNULL;
+      else p->dir = NodoNULL;
+      free(x);
+      return t;
+    };
+    if((strcmp(x->aUser->name,p->aUser->name) < 0)) 
+    {
+     y = Menor(t->dir);
+     p->esq = y;
+     y->esq = x->esq;
+     y->dir = x->dir;
+     free(x);
+    } else
+      {
+        y = Maior(t->esq);
+        p->dir = y;
+        y->dir = x->dir;
+        y->esq = x->esq;
+        free(x);
+      }; 
+  }
+  else // nodo é preto
+  {
+    if((strcmp(x->aUser->name,p->aUser->name) < 0)) // filho a esquerda
+    {
+      if((p->dir->red == 0) && ((x->esq->red == 0) && (x->dir->red == 0))) // irmão preto e dois filhos pretos
+      {
+        if(p->red) p->red = 0; // troca a cor do pai 
+        else p->red = 1;
+        p->dir->red = 1; // troca a cor do irmao 
+        y = Menor(t->dir);
+        p->esq = y;
+        y->esq = x->esq;
+        y->dir = x->dir;
+        free(x);
+      } else if ((p->dir->red == 0) && ((x->esq->red != 0) || (x->dir->red != 0)))
+        {
+         y = Menor(t->dir);
+         p->esq = y;
+         y->esq = x->esq;
+         y->dir = x->dir;
+         RotacaoSimplesDir(p);
+         if(x->red) x->red = 0; // troca a cor do nodo 
+         else x->red = 1;
+         free(x);
+        }else // irmão vermelho
+          {
+            if(p->dir->red) 
+            {
+               y = Menor(t->dir);
+               p->esq = y;
+               y->esq = x->esq;
+               y->dir = x->dir;
+               RotacaoSimplesDir(p);
+               free(x);
+            };
+          };
+    } else // filho a direita
+      {
+      if((p->esq->red == 0) && ((x->esq->red == 0) && (x->dir->red == 0))) // irmão preto e dois filhos pretos
+      {
+        if(p->red) p->red = 0; // troca a cor do pai 
+        else p->red = 1;
+        p->dir->red = 1; // troca a cor do irmao 
+        y = Maior(t->esq);
+        p->dir = y;
+        y->dir = x->dir;
+        y->esq = x->esq;
+        free(x);
+      } else if ((p->dir->red == 0) && ((x->esq->red != 0) || (x->dir->red != 0)))
+        {
+         y = Maior(t->esq);
+        p->dir = y;
+        y->dir = x->dir;
+        y->esq = x->esq;
+         RotacaoSimplesEsq(p);
+         if(x->red) x->red = 0; // troca a cor do nodo 
+         else x->red = 1;
+         free(x);
+        } else // irmão vermelho
+          {
+            if(p->esq->red) 
+            {
+               y = Maior(t->esq);
+               p->dir = y;
+               y->dir = x->dir;
+               y->esq = x->esq;
+               RotacaoSimplesEsq(p);
+               free(x);
+            };
+          };
+    };
+  };
+  VerificaRN(t,name); 
+  return t;
 }
 
 void Destroi(UserTree* tree) {
@@ -90,7 +201,7 @@ void Destroi(UserTree* tree) {
 // R-N, auxiliares
 UserTree* VerificaRN(UserTree* t, char name[])
 {
-RNtree* x = t;
+  RNtree* x = t;
   RNtree* p = x->pai;
   RNtree* v = p->pai;
   while((strcmp(x->aUser->name, name)) != 0)  /* desce na árvore */
@@ -126,7 +237,7 @@ RNtree* x = t;
           };         
         } else 
           {
-            if((strcmp(x->aUser->name, p->aUser->name) < 0) && (strcmp(p->aUser->name, v->aUser->key) < 0)) // Caso 2.2(A)
+            if((strcmp(x->aUser->name, p->aUser->name) < 0) && (strcmp(p->aUser->name, v->aUser->name) < 0)) // Caso 2.2(A)
             {
               // rotacao a direita
               RotacaoSimplesDir(v);
@@ -136,7 +247,7 @@ RNtree* x = t;
               else v->red = 1;
             } else
               {
-                if((strcmp(x->aUser->name, p->aUser->name) > 0) && (strcmp(p->aUser->name, v->aUser->key) > 0)) // Caso 2.2(B)
+                if((strcmp(x->aUser->name, p->aUser->name) > 0) && (strcmp(p->aUser->name, v->aUser->name) > 0)) // Caso 2.2(B)
                 {
                   RotacaoSimplesEsq(v);
                   if(p->red) p->red = 0; // troca a cor do pai 
@@ -145,7 +256,7 @@ RNtree* x = t;
                   else v->red = 1;
                 } else 
                   {
-                    if((strcmp(p->aUser->name, v->aUser->key) < 0))  // Caso 2.2(C)
+                    if((strcmp(p->aUser->name, v->aUser->name) < 0))  // Caso 2.2(C)
                     {
                       RotacaoSimplesEsq(p);
                       RotacaoSimplesDir(v); // rotacao Dupla a direita
@@ -181,7 +292,7 @@ RNtree* x = t;
           };         
         } else 
           {
-            if((strcmp(x->aUser->name, p->aUser->name) < 0) && (strcmp(p->aUser->name, v->aUser->key) < 0)) // Caso 2.2(A)
+            if((strcmp(x->aUser->name, p->aUser->name) < 0) && (strcmp(p->aUser->name, v->aUser->name) < 0)) // Caso 2.2(A)
             {
               // rotacao a direita
               RotacaoSimplesDir(v);
@@ -191,7 +302,7 @@ RNtree* x = t;
               else v->red = 1;
             } else
               {
-                if((strcmp(x->aUser->name, p->aUser->name) > 0) && (strcmp(p->aUser->name, v->aUser->key) > 0)) // Caso 2.2(B)
+                if((strcmp(x->aUser->name, p->aUser->name) > 0) && (strcmp(p->aUser->name, v->aUser->name) > 0)) // Caso 2.2(B)
                 {
                   RotacaoSimplesEsq(v); // --- aqui
                   if(p->red) p->red = 0; // troca a cor do pai 
@@ -200,7 +311,7 @@ RNtree* x = t;
                   else v->red = 1;
                 } else 
                   {
-                    if((strcmp(p->aUser->name, v->aUser->key) < 0))  // Caso 2.2(C)
+                    if((strcmp(p->aUser->name, v->aUser->name) < 0))  // Caso 2.2(C)
                     {
                       RotacaoSimplesEsq(p);
                       RotacaoSimplesDir(v); // rotacao Dupla a direita
