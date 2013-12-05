@@ -73,9 +73,53 @@ void Destroi(UserTree* tree);
 UserTree* VerificaRN(UserTree* t, char name[]);
 
 
-UserTree* RotacaoSimplesEsq(UserTree* tree);
-UserTree* RotacaoSimplesDir(UserTree* tree);
-void Desenha(UserTree* tree, int nivel);
-UserTree* Maior(UserTree* tree);
-UserTree* Menor(UserTree* tree);
+/* rotaciona para a esquerda */
+UserTree* RotacaoSimplesEsq(UserTree* t) {
+    UserTree* aux;
+
+    aux = t->dir;
+    t->dir = aux->esq;
+    aux->esq = t;
+
+    return aux;   /* nova raiz */
+
+}
+
+/* rotaciona para a direita */
+UserTree* RotacaoSimplesDir(UserTree* t) {
+    UserTree* aux;
+
+    aux = t->esq;
+    t->esq = aux->dir;
+    aux->dir = t;
+
+    return aux;  /* nova raiz */
+}
+
+void Desenha(UserTree* t, int nivel) {
+    int x;
+
+    if (t !=NodoNULL)
+    {
+        for (x=1; x<=nivel; x++)
+        printf("=");
+        if(t->red) printf("%s Red\n", t->aUser->name);
+        else printf("%s Black\n", t->aUser->name);
+        if (t->esq != NodoNULL) Desenha(t->esq, (nivel+1));
+        if (t->dir != NodoNULL) Desenha(t->dir, (nivel+1));
+    }
+    else printf("Arvore Vazia\n");
+}
+
+// percorre a árvore para a direita (direção do maior valor)
+UserTree* Maior(UserTree* t) {
+    while (t != NodoNULL) t = t->dir;
+    return t->pai;
+}
+
+// percorre a árvore para a esquerda (direção do menor valor)
+UserTree* Menor(UserTree* t) {
+    while (t != NodoNULL) t = t->esq;
+    return t->pai;
+}
 
