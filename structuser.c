@@ -62,7 +62,6 @@ User* aUser;
                 p->dir = x;
 
             // Nodo Foi Inserido mas pode ter modificado as regras então temos que verificar.
-
             return VerificaRN(tree, name);
 };
 
@@ -85,12 +84,12 @@ UserTree* Remove(UserTree* tree, char name[])
   UserTree* y;
   UserTree* p = x->pai;
   UserTree* v = p->pai;
-  
+
   strcpy(NodoNULL->aUser->name, name);
-  while((strcmp(x->aUser->name, name) != 0))  /* desce na árvore */
+  while(strncmp(x->aUser->name, name, NAME_SIZE) != 0)  /* desce na árvore */
   {
    v = p; p = x;
-   if(strcmp(name,x->aUser->name) < 0) x = x->esq;
+   if(strncmp(name,x->aUser->name, NAME_SIZE) > 0) x = x->esq;
    else x = x->dir;
   };
   if(x == NodoNULL) return tree;
@@ -98,12 +97,12 @@ UserTree* Remove(UserTree* tree, char name[])
   {
     if((x->esq == NodoNULL) && (x->dir == NodoNULL)) // nodo folha
     {
-      if((strcmp(x->aUser->name, p->aUser->name) < 0)) p->esq = NodoNULL;
+      if(strncmp(x->aUser->name, p->aUser->name, NAME_SIZE) < 0) p->esq = NodoNULL;
       else p->dir = NodoNULL;
       free(x);
       return tree;
     };
-    if((strcmp(x->aUser->name,p->aUser->name) < 0)) 
+    if(strncmp(x->aUser->name,p->aUser->name, NAME_SIZE) < 0)
     {
      y = Menor(tree->dir);
      p->esq = y;
@@ -117,17 +116,17 @@ UserTree* Remove(UserTree* tree, char name[])
         y->dir = x->dir;
         y->esq = x->esq;
         free(x);
-      }; 
+      };
   }
   else // nodo é preto
   {
-    if((strcmp(x->aUser->name,p->aUser->name) < 0)) // filho a esquerda
+    if(strncmp(x->aUser->name,p->aUser->name, NAME_SIZE) < 0) // filho a esquerda
     {
       if((p->dir->red == 0) && ((x->esq->red == 0) && (x->dir->red == 0))) // irmão preto e dois filhos pretos
       {
-        if(p->red) p->red = 0; // troca a cor do pai 
+        if(p->red) p->red = 0; // troca a cor do pai
         else p->red = 1;
-        p->dir->red = 1; // troca a cor do irmao 
+        p->dir->red = 1; // troca a cor do irmao
         y = Menor(tree->dir);
         p->esq = y;
         y->esq = x->esq;
@@ -140,12 +139,12 @@ UserTree* Remove(UserTree* tree, char name[])
          y->esq = x->esq;
          y->dir = x->dir;
          RotacaoSimplesDir(p);
-         if(x->red) x->red = 0; // troca a cor do nodo 
+         if(x->red) x->red = 0; // troca a cor do nodo
          else x->red = 1;
          free(x);
         }else // irmão vermelho
           {
-            if(p->dir->red) 
+            if(p->dir->red)
             {
                y = Menor(tree->dir);
                p->esq = y;
@@ -159,9 +158,9 @@ UserTree* Remove(UserTree* tree, char name[])
       {
       if((p->esq->red == 0) && ((x->esq->red == 0) && (x->dir->red == 0))) // irmão preto e dois filhos pretos
       {
-        if(p->red) p->red = 0; // troca a cor do pai 
+        if(p->red) p->red = 0; // troca a cor do pai
         else p->red = 1;
-        p->dir->red = 1; // troca a cor do irmao 
+        p->dir->red = 1; // troca a cor do irmao
         y = Maior(tree->esq);
         p->dir = y;
         y->dir = x->dir;
@@ -174,12 +173,12 @@ UserTree* Remove(UserTree* tree, char name[])
         y->dir = x->dir;
         y->esq = x->esq;
          RotacaoSimplesEsq(p);
-         if(x->red) x->red = 0; // troca a cor do nodo 
+         if(x->red) x->red = 0; // troca a cor do nodo
          else x->red = 1;
          free(x);
         } else // irmão vermelho
           {
-            if(p->esq->red) 
+            if(p->esq->red)
             {
                y = Maior(tree->esq);
                p->dir = y;
@@ -191,7 +190,7 @@ UserTree* Remove(UserTree* tree, char name[])
           };
     };
   };
-  VerificaRN(tree,name); 
+  VerificaRN(tree,name);
   return tree;
 }
 
@@ -205,15 +204,16 @@ UserTree* VerificaRN(UserTree* t, char name[])
   UserTree* x = t;
   UserTree* p = x->pai;
   UserTree* v = p->pai;
-  while((strcmp(x->aUser->name, name)) != 0)  /* desce na árvore */
+  while(strncmp(x->aUser->name, name, NAME_SIZE) != 0)  /* desce na árvore */
   {
-    v = p; p = x;
-    if((strcmp(x->aUser->name,name)) < 0 ) 
-	x = x->esq;
+    v = p;
+    p = x;
+    if(strncmp(x->aUser->name,name, NAME_SIZE) > 0)
+        x = x->esq;
     else x = x->dir;
   };
   // x contêm o novo e p o pai do novo.
-  
+
   /* if(p->red == 0) - caso 1
      insere vermelho mas já tá então não precisa modificar.
   */
@@ -222,119 +222,119 @@ UserTree* VerificaRN(UserTree* t, char name[])
   {
     if( v != NodoNULL) // pai não é raiz
     {
-      if((strcmp(p->aUser->name,v->aUser->name)) < 0) // p é filho a esquerda
+      if(strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) < 0) // p é filho a esquerda
       {
         // Caso 2.1
         if(v->dir->red) // tio é vermelho
         {
           v->dir->red =0; // tio vira preto
-          if(p->red) p->red = 0; // troca a cor do pai 
+          if(p->red) p->red = 0; // troca a cor do pai
           else p->red = 1;
           if(v->pai == NodoNULL) // avô é raiz
           {
             p->dir->red = 0;
             p->red = 0;
             v->red = 0;
-          };         
-        } else 
+          };
+        } else
           {
-            if((strcmp(x->aUser->name, p->aUser->name) < 0) && (strcmp(p->aUser->name, v->aUser->name) < 0)) // Caso 2.2(A)
+            if(strncmp(x->aUser->name, p->aUser->name, NAME_SIZE) < 0 && strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) < 0) // Caso 2.2(A)
             {
               // rotacao a direita
               RotacaoSimplesDir(v);
-              if(p->red) p->red = 0; // troca a cor do pai 
+              if(p->red) p->red = 0; // troca a cor do pai
               else p->red = 1;
-              if(v->red) v->red = 0; // troca a cor do vo 
+              if(v->red) v->red = 0; // troca a cor do vo
               else v->red = 1;
             } else
               {
-                if((strcmp(x->aUser->name, p->aUser->name) > 0) && (strcmp(p->aUser->name, v->aUser->name) > 0)) // Caso 2.2(B)
+                if(strncmp(x->aUser->name, p->aUser->name, NAME_SIZE) > 0 && strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) > 0) // Caso 2.2(B)
                 {
                   RotacaoSimplesEsq(v);
-                  if(p->red) p->red = 0; // troca a cor do pai 
+                  if(p->red) p->red = 0; // troca a cor do pai
                   else p->red = 1;
-                  if(v->red) v->red = 0; // troca a cor do vo 
+                  if(v->red) v->red = 0; // troca a cor do vo
                   else v->red = 1;
-                } else 
+                } else
                   {
-                    if((strcmp(p->aUser->name, v->aUser->name) < 0))  // Caso 2.2(C)
+                    if(strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) < 0)  // Caso 2.2(C)
                     {
                       RotacaoSimplesEsq(p);
                       RotacaoSimplesDir(v); // rotacao Dupla a direita
-                      if(x->red) x->red = 0; // troca a cor do novo 
+                      if(x->red) x->red = 0; // troca a cor do novo
                       else x->red = 1;
-                      if(v->red) v->red = 0; // troca a cor do vo 
+                      if(v->red) v->red = 0; // troca a cor do vo
                       else v->red = 1;
                     } else        // Caso 2.2(D)
                       {
                         RotacaoSimplesDir(p);
                         RotacaoSimplesEsq(v); // rotacao Dupla a esquerda
-                        if(x->red) x->red = 0; // troca a cor do novo 
+                        if(x->red) x->red = 0; // troca a cor do novo
                         else x->red = 1;
-                        if(v->red) v->red = 0; // troca a cor do vo 
+                        if(v->red) v->red = 0; // troca a cor do vo
                         else v->red = 1;
-                      };   
+                      };
                   };
               };
           };
-      } else 
+      } else
         {
         // Caso 2.1
         if(v->esq->red) // tio é vermelho
         {
           v->esq->red =0; // tio vira preto
-          if(p->red) p->red = 0; // troca a cor do pai 
+          if(p->red) p->red = 0; // troca a cor do pai
           else p->red = 1;
           if(v->pai == NodoNULL) // avô é raiz
           {
             p->dir->red = 0;
             p->red = 0;
             v->red = 0;
-          };         
-        } else 
+          };
+        } else
           {
-            if((strcmp(x->aUser->name, p->aUser->name) < 0) && (strcmp(p->aUser->name, v->aUser->name) < 0)) // Caso 2.2(A)
+            if(strncmp(x->aUser->name, p->aUser->name, NAME_SIZE) < 0 && strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) < 0) // Caso 2.2(A)
             {
               // rotacao a direita
               RotacaoSimplesDir(v);
-              if(p->red) p->red = 0; // troca a cor do pai 
+              if(p->red) p->red = 0; // troca a cor do pai
               else p->red = 1;
-              if(v->red) v->red = 0; // troca a cor do vo 
+              if(v->red) v->red = 0; // troca a cor do vo
               else v->red = 1;
             } else
               {
-                if((strcmp(x->aUser->name, p->aUser->name) > 0) && (strcmp(p->aUser->name, v->aUser->name) > 0)) // Caso 2.2(B)
+                if(strncmp(x->aUser->name, p->aUser->name, NAME_SIZE) > 0 && strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) > 0) // Caso 2.2(B)
                 {
                   RotacaoSimplesEsq(v); // --- aqui
-                  if(p->red) p->red = 0; // troca a cor do pai 
+                  if(p->red) p->red = 0; // troca a cor do pai
                   else p->red = 1;
-                  if(v->red) v->red = 0; // troca a cor do vo 
+                  if(v->red) v->red = 0; // troca a cor do vo
                   else v->red = 1;
-                } else 
+                } else
                   {
-                    if((strcmp(p->aUser->name, v->aUser->name) < 0))  // Caso 2.2(C)
+                    if(strncmp(p->aUser->name, v->aUser->name, NAME_SIZE) < 0)  // Caso 2.2(C)
                     {
                       RotacaoSimplesEsq(p);
                       RotacaoSimplesDir(v); // rotacao Dupla a direita
-                      if(x->red) x->red = 0; // troca a cor do novo 
+                      if(x->red) x->red = 0; // troca a cor do novo
                       else x->red = 1;
-                      if(v->red) v->red = 0; // troca a cor do vo 
+                      if(v->red) v->red = 0; // troca a cor do vo
                       else v->red = 1;
                     } else        // Caso 2.2(D)
                       {
                         RotacaoSimplesDir(p);
                         RotacaoSimplesEsq(v); // rotacao Dupla a esquerda
-                        if(x->red) x->red = 0; // troca a cor do novo 
+                        if(x->red) x->red = 0; // troca a cor do novo
                         else x->red = 1;
-                        if(v->red) v->red = 0; // troca a cor do vo 
+                        if(v->red) v->red = 0; // troca a cor do vo
                         else v->red = 1;
-                      };   
+                      };
                   };
               };
           };
       };
     };
-  }; 
+  };
   t->red = 0;
   x->red = 1;
   return t;
