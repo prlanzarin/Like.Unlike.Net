@@ -70,6 +70,7 @@ User* aUser;
 User* Consulta(char name[], UserTree* tree){
     int cmp;
 
+    if(tree == NULL) return NULL;            
     if( tree == NodoNULL ) return NULL;
     cmp = strncmp(name, tree->aUser->name, NAME_SIZE);     // compara nome do usuário com palavra da busca
     if(cmp == 0) return tree->aUser;
