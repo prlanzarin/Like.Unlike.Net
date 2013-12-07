@@ -1,17 +1,31 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "structuser.h"
+#include "post.h"
 
+/* Variáveis globais */
+PostList* _pPostList;
+UserTree* _userTree = NULL;
+
+
+// le comando no arquivo e seleciona a operação
 void getOperation(FILE *arq);
+
+// salva o post de um usuário
+int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi);
+
+// imprime mensagens de um usuário, de seus amigos e de seus inimigos
+int showPanel(PostList* pList, char usr_name[NAME_SIZE]);
 
 int main()
 {
-  FILE *input;
-  printf("Resultado do arquivo de entrada: \n");
-  getOperation(input);
-  return 0;
+    FILE *input;
+
+    printf("Resultado do arquivo de entrada: \n");
+    getOperation(input);
+
+    return 0;
 }
 
 void getOperation(FILE *arq)
@@ -96,3 +110,43 @@ void getOperation(FILE *arq)
   else printf("Erro na abertura do arquivo! \n");
   fclose(arq);
 };
+
+
+/* insere post na lista de posts dada uma pList inicializada */
+int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi) {
+    if (Consulta(usr_name, _userTree) != NULL) {       // testa se usuário existe
+        pList = plInsert(pList, usr_name, text, visi);
+        return 1;
+    } else {
+        return 0;       // retorna 0 se usuário não existir
+    }
+}
+
+/* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir*/
+int showPanel(PostList* pList, char usr_name[NAME_SIZE]) {
+    User* user, *userAux;
+    PostList* aux;
+    int cmp;
+    user = Consulta(usr_name, _userTree);
+    if (user != NULL) {       // testa se usuário existe
+        for(aux = pList; aux != NULL; aux = aux->next) {    // percorre lista de posts
+            cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
+            if(cmp == 0) {
+                printf("%s\n", aux->post.msg);             // se sim, mostra a mensagem
+            } else {
+                userAux = Consulta(aux->post.usrName, user->like);
+                if(userAux != NULL) {   // se não, testa se está na lista like
+                    printf("%s\n", aux->post.msg);
+                } else {
+                    userAux = Consulta(aux->post.usrName, user->unlike);
+                    if (userAux != NULL) { // se não, testa se está na lista unlike
+                        printf("%s\n", aux->post.msg);
+                    }
+                }
+            }
+        }
+        return 1;
+    } else {
+        return 0;       // retorna 0 se usuário não existir
+    }
+}
