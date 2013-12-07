@@ -1,10 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #define NAME_SIZE 50
 // base de dados geral
 
 /* informações do usuário */
 struct user {
   char name[NAME_SIZE];
-  struct UserTree *like, *unlike;
+  struct userTree *like, *unlike;
 };
 
 typedef struct user User;
@@ -18,7 +21,6 @@ struct userTree {
   struct userTree *dir;
   struct userTree *pai;
 };
-
 typedef struct userTree UserTree;
 
 
@@ -38,7 +40,7 @@ static UserTree* NodoNULL = NULL;
 
 // R-N
 UserTree* Insere(UserTree* tree, char name[]);
-int Consulta(char name[], UserTree* tree);
+User* Consulta(char name[], UserTree* tree);
 UserTree* Remove(UserTree* tree, char name[]);
 void Destroi(UserTree* tree);
 
