@@ -66,16 +66,16 @@ User* aUser;
 };
 
 // procura um usuário pelo nome
-// retorna 1 se achar, se não retorna 0
-int Consulta(char name[], UserTree* tree){
+// retorna ponteiro para o usuário se achar, se não retorna NULL
+User* Consulta(char name[], UserTree* tree){
     int cmp;
 
-    if( tree == NodoNULL ) return 0;
+    if( tree == NodoNULL ) return NULL;
     cmp = strncmp(name, tree->aUser->name, NAME_SIZE);     // compara nome do usuário com palavra da busca
-    if(cmp == 0) return 1;
+    if(cmp == 0) return tree->aUser;
     else if( cmp < 0 ) return Consulta( name, tree->esq );
         else if( cmp > 0 ) return Consulta( name, tree->dir );
-            else return 0;
+            else return NULL;
 };
 
 UserTree* Remove(UserTree* tree, char name[])
