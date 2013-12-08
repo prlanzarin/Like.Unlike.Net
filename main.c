@@ -3,6 +3,7 @@
 #include <string.h>
 #include "structuser.h"
 #include "post.h"
+#define POST_SIZE 1000
 
 /* Variáveis globais */
 PostList* _pPostList;
@@ -10,7 +11,7 @@ UserTree* _userTree = NULL;
 
 
 // le comando no arquivo e seleciona a operação
-void getOperation(FILE *arq);
+void getOperation(FILE *arq, FILE *saida);
 
 // salva o post de um usuário
 int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi);
@@ -20,95 +21,117 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE]);
 
 int main()
 {
-    FILE *input;
+    FILE *input, *saida;
+    char filename[NAME_SIZE];
+    int opened = 0;
+    while(opened == 0)
+    {
+        printf("Insira o nome do arquivo de entrada: ");
+        scanf("%s", filename);
+        if((input = fopen(filename, "r")) != NULL)
+            opened = 1;
+    }
+    opened = 0;
+    while(opened == 0)
+    {
+        printf("Insira o nome do arquivo de saída: ");
+        scanf("%s", filename);
+        if((saida = fopen(filename, "w+")) != NULL)
+            opened = 1;
+    }
 
     printf("Resultado do arquivo de entrada: \n");
-    getOperation(input);
+    getOperation(input, saida);
 
     return 0;
 }
 
-void getOperation(FILE *arq)
+void getOperation(FILE *arq, FILE *saida)
 {
-  char nome1[50], nome2[50], post[1000];
-  int i, j;
-  if((arq = fopen("teste.txt", "r")) != NULL)
+    char nome1[NAME_SIZE], nome2[NAME_SIZE], post[POST_SIZE];
+    int i, j;
+    while(!feof(arq))
     {
-      while(!feof(arq))
-	{
-    	  switch(fgetc(arq))
-	    {
-	    case 'i':
-	      {
-		fscanf(arq, "%s", nome1);
-		//chamada de função insertUser
-		printf("Você quis inserir o usuário: %s\n", nome1);
-	      }
-	      break;
+        switch(fgetc(arq))
+        {
+        case 'i':
+        {
 
-	    case 'e':
-	      {
-		fscanf(arq, "%d %d", &i, &j);
-		//chamada de função showUsers
-		printf("Você quis exibir os usuários da rede social na ordem %d e os %d primeiros usuários (0 = todos) \n", i, j);
-	      }
-	      break;
+            fscanf(arq, "%s", nome1);
+            if(Consulta(nome1, _userTree) == NULL)
+            {
+                _userTree = Insere(_userTree, nome1);
+                fprintf(saida, "i usuario cadastrado com sucesso\n");
+                printf("i usuario cadastrado com sucesso\n");
+            }
+            else
+            {
+                fprintf(saida, "i ERRO usuario ja cadastrado\n");
+                printf("i ERRO usuario ja cadastrado\n");
+            }
+        }
+        break;
 
-	    case 'a':
-	      {
-		fscanf(arq, "%s %s %d", nome1, nome2, &i);
-		//chamada da função insertFriend
-		printf("Você quis adicionar um amigo ao usuário %s. O amigo era %s. Você quis adicionar ele na lista %d (1 = Like, 2 = UnLike)\n", nome1, nome2, i);
-	      }
-	      break;
+        case 'e':
+        {
+            fscanf(arq, "%d %d", &i, &j);
+            //chamada de função showUsers
+            printf("Você quis exibir os usuários da rede social na ordem %d e os %d primeiros usuários (0 = todos) \n", i, j);
+        }
+        break;
 
-	    case 'm':
-	      {
-		fscanf(arq, "%s %d %d", nome1, &i, &j);
-		//chamada da função showFriends
-		printf("Você quis exibir a lista de amigos do usuário %s. A lista a ser exibida é %d (1 - Like, 2 - UnLike). Você quis exibir %d usuários (0- todos) \n", nome1, i, j);
-	      }
-	      break;
+        case 'a':
+        {
+            fscanf(arq, "%s %s %d", nome1, nome2, &i);
+            //chamada da função insertFriend
+            printf("Você quis adicionar um amigo ao usuário %s. O amigo era %s. Você quis adicionar ele na lista %d (1 = Like, 2 = UnLike)\n", nome1, nome2, i);
+        }
+        break;
 
-	    case 't':
-	      {
-		fgets(post, 1000, arq);
-		strcpy(nome1, strtok(post, " "));
-		strcpy(post, strtok(NULL, "\""));
-		i = atoi(strtok(NULL, " "));
-		//chamada da função postMessage
-		printf("Você quis postar a mensagem - %s - emitida pelo usuário %s com a opção de visibilidade %d (0 - todos, 1 - Like, 2 - UnLike) \n", post, nome1, i);
-	      }
-	      break;
+        case 'm':
+        {
+            fscanf(arq, "%s %d %d", nome1, &i, &j);
+            //chamada da função showFriends
+            printf("Você quis exibir a lista de amigos do usuário %s. A lista a ser exibida é %d (1 - Like, 2 - UnLike). Você quis exibir %d usuários (0- todos) \n", nome1, i, j);
+        }
+        break;
 
-	    case 'p':
-	      {
-		fscanf(arq, "%s %d %d", nome1, &i, &j);
-		// chamada da função showPanel
-		printf("Você quis exibir o painel de mensagens do usuário %s, usando o parâmetro %d, (0 - Usuário, Like e UnLike), (1 - Usuário e Like), (2 - Usuário e UnLike) dos %d primeiros usuários (0 - todos) \n", nome1, i, j);
-	      }
-	      break;
+        case 't':
+        {
+            fgets(post, 1000, arq);
+            strcpy(nome1, strtok(post, " "));
+            strcpy(post, strtok(NULL, "\""));
+            i = atoi(strtok(NULL, " "));
+            //chamada da função postMessage
+            printf("Você quis postar a mensagem - %s - emitida pelo usuário %s com a opção de visibilidade %d (0 - todos, 1 - Like, 2 - UnLike) \n", post, nome1, i);
+        }
+        break;
 
-	    case 'c':
-	      {
-		fscanf(arq, "%s %d %d", nome1, &i, &j);
-		// chamada da função friendRanking
-		printf("Você quis exibir o ranking de popularidade do círculo do usuário %s na lista %d (0 - Like e Unlike, 1 - Like, 2 - UnLike). Serão exibidos os %d primeiros usuários (0 - Todos) \n", nome1, i, j);
-	      }
-	      break;
+        case 'p':
+        {
+            fscanf(arq, "%s %d %d", nome1, &i, &j);
+            // chamada da função showPanel
+            printf("Você quis exibir o painel de mensagens do usuário %s, usando o parâmetro %d, (0 - Usuário, Like e UnLike), (1 - Usuário e Like), (2 - Usuário e UnLike) dos %d primeiros usuários (0 - todos) \n", nome1, i, j);
+        }
+        break;
 
-	    case 'r':
-	      {
-		fscanf(arq, "%d %d", &i, &j);
-		// chamada da função topRanking
-		printf("Você quis exibir o ranking geral da rede com o tipo %d (indefinido). Serão exibidos os %d primeiros usuários (0 - Todos)\n", i, j);
-	      }
-	      break;
-	    }
-	}
+        case 'c':
+        {
+            fscanf(arq, "%s %d %d", nome1, &i, &j);
+            // chamada da função friendRanking
+            printf("Você quis exibir o ranking de popularidade do círculo do usuário %s na lista %d (0 - Like e Unlike, 1 - Like, 2 - UnLike). Serão exibidos os %d primeiros usuários (0 - Todos) \n", nome1, i, j);
+        }
+        break;
+
+        case 'r':
+        {
+            fscanf(arq, "%d %d", &i, &j);
+            // chamada da função topRanking
+            printf("Você quis exibir o ranking geral da rede com o tipo %d (indefinido). Serão exibidos os %d primeiros usuários (0 - Todos)\n", i, j);
+        }
+        break;
+        }
     }
-  else printf("Erro na abertura do arquivo! \n");
-  fclose(arq);
 };
 
 
