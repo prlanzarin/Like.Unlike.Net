@@ -40,6 +40,7 @@ static UserTree* NodoNULL = NULL;
 
 // R-N
 UserTree* Insere(UserTree* tree, char name[]);
+UserTree* InserePonteiro(UserTree* tree, User *amigo);
 User* Consulta(char name[], UserTree* tree);
 UserTree* Remove(UserTree* tree, char name[]);
 void Destroi(UserTree* tree);
@@ -52,7 +53,6 @@ UserTree* RotacaoSimplesDir(UserTree* tree);
 void Desenha(UserTree* tree, int nivel);
 UserTree* Maior(UserTree* tree);
 UserTree* Menor(UserTree* tree);
-
 // LSE
 
 FriendList* cria_lista(void);

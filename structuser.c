@@ -65,14 +65,71 @@ User* aUser;
             return VerificaRN(tree, name);
 };
 
+UserTree* InserePonteiro(UserTree* tree, User *amigo) {
+
+UserTree* x = tree;
+User* aUser;
+            if(tree == NULL)  {
+                printf("T1\n");
+                 // alocação de espaço
+                 NodoNULL = (UserTree*) malloc(sizeof(UserTree));
+                 x = (UserTree*) malloc(sizeof(UserTree));
+                 //inicializações
+                 // NULL
+                 NodoNULL->red = 0; // null é preto;
+                 NodoNULL->esq = NodoNULL;
+                 NodoNULL->dir = NodoNULL;
+                 NodoNULL->aUser = NULL;
+                 NodoNULL->pai = NodoNULL;
+                 // Raiz
+                 aUser = (User*) malloc(sizeof(User));  // aloca espaço para novo usuário
+                 aUser = amigo;   // nome do novo usuario
+                 x->aUser = aUser;
+                 x->esq = x->dir = NodoNULL;
+                 x->red = 0;
+                 x->pai = NodoNULL;
+                 return x;
+            }
+
+            UserTree* p= x->pai; // pai
+            UserTree* v= p->pai; // vo
+
+
+            while( x != NodoNULL )  /* desce na árvore */
+            {
+              v = p;        // atualiza ponteiro do pai
+              p = x;        // atualiza ponteiro do vo
+              if( strncmp(x->aUser->name, amigo->name, NAME_SIZE) > 0 ) x = x->esq;
+              else x = x->dir;
+            };
+
+            if(x != NodoNULL) return tree; // Nodo Ja Existe
+            printf("T2\n");
+            x = (UserTree*) malloc(sizeof(UserTree));
+            aUser = (User*) malloc(sizeof(User));  // aloca espaço para novo usuário
+            aUser = amigo;  // nome do novo usuario
+            x->aUser = aUser;
+            x->esq = x->dir = NodoNULL;
+            x->pai = p;
+            x->red = 1;
+
+            if( strncmp(p->aUser->name, amigo->name, NAME_SIZE) > 0)
+                p->esq = x;
+            else
+                p->dir = x;
+
+            // Nodo Foi Inserido mas pode ter modificado as regras então temos que verificar.
+            return VerificaRN(tree, amigo->name);
+};
+
 // procura um usuário pelo nome
 // retorna ponteiro para o usuário se achar, se não retorna NULL
 User* Consulta(char name[], UserTree* tree){
     int cmp;
 
-    if(tree == NULL) return NULL;            
+    if(tree == NULL) return NULL;
     if( tree == NodoNULL ) return NULL;
-    cmp = strncmp(name, tree->aUser->name, NAME_SIZE);     // compara nome do usuário com palavra da busca
+    cmp = strncmp(name, tree->aUser->name, NAME_SIZE); // compara nome do usuário com palavra da busca
     if(cmp == 0) return tree->aUser;
     else if( cmp < 0 ) return Consulta( name, tree->esq );
         else if( cmp > 0 ) return Consulta( name, tree->dir );
@@ -390,4 +447,6 @@ UserTree* Menor(UserTree* t) {
     while (t != NodoNULL) t = t->esq;
     return t->pai;
 }
+
+
 
