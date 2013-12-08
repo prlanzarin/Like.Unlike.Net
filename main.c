@@ -236,4 +236,29 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE])
     {
         return 0;       // retorna 0 se usuário não existir
     }
-};
+}
+
+/* imprime os top primeiros usuários, top = -1 para imprimir todos */
+int getUsersOrdered(UserTree* tree, int ord, int top) {
+
+    if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL) {
+        return top;
+    } else {
+        if(ord == 2) {
+            top = getUsersOrdered(tree->dir, ord, top);
+            if(top != 0) {
+                printf("%s\n", tree->aUser->name);
+                top--;
+                top = getUsersOrdered(tree->esq, ord, top);
+            }
+        } else if(ord == 1) {
+            top = getUsersOrdered(tree->esq, ord, top);
+            if(top != 0) {
+                printf("%s\n", tree->aUser->name);
+                top--;
+                top = getUsersOrdered(tree->dir, ord, top);
+            }
+        }
+    }
+    return top;
+}
