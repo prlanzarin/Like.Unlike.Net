@@ -28,6 +28,11 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top);
 // top é o numero de usuários exibidos (-1 para todos)
 int getUsersOrdered(UserTree *tree, int ord, int top);
 
+
+void showFriends(char nome1[], int tipo, int top, FILE *saida);
+
+int scanAlphabetical(UserTree* t, FILE *saida, int top);
+
 int main()
 {
     FILE *input, *saida;
@@ -117,11 +122,10 @@ void getOperation(FILE *arq, FILE *saida)
         }
         break;
 
-        case 'm':
+       case 'm':
         {
             fscanf(arq, "%s %d %d", nome1, &i, &j);
-            //chamada da função showFriends
-            printf("Você quis exibir a lista de amigos do usuário %s. A lista a ser exibida é %d (1 - Like, 2 - UnLike). Você quis exibir %d usuários (0- todos) \n", nome1, i, j);
+            showFriends(nome1, i, j, saida);
         }
         break;
 
@@ -163,6 +167,7 @@ void getOperation(FILE *arq, FILE *saida)
     }
 };
 
+
 /* Insere o amigo nome2 no usuário nome1 de acordo com o tipo (1 - LIKE/ 2- Unlike)
     Retorna 0 se não foi inserido (nome1 ou nome2 não está na rede ou nome2 já está
     na lista like ou unlike de nome1 */
@@ -176,18 +181,19 @@ int insertFriend(char nome1[], char nome2[], int tipo)
         {
             if(tipo == 1) // lista like
             {
-                Insere(user->like, nome2);
+                user->like = InserePonteiro(user->like, amigo);
                 inserted = 1;
             }
             else if(tipo == 2) //lista unlike
             {
-                Insere(user->unlike, nome2);
+                user->like = InserePonteiro(user->unlike, amigo);
                 inserted = 1;
             }
         }
     }
     return inserted;
 };
+
 
 /* insere post na lista de posts dada uma pList inicializada */
 int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi)
@@ -281,4 +287,81 @@ int getUsersOrdered(UserTree* tree, int ord, int top) {
         }
     }
     return top;
+}
+
+void showFriends(char nome1[], int tipo, int top, FILE *saida)
+{
+    User *user;
+    if((user = Consulta(nome1, _userTree)) != NULL)
+    {
+        if(tipo == 1)
+        {
+            if(user->like != NULL)
+            {
+                fprintf(saida,"m ");
+                printf("m ");
+                scanAlphabetical(user->like, saida, top);
+                fprintf(saida, "\n");
+                printf("\n");
+            }
+            else
+            {
+                fprintf(saida, "m ERRO nenhum amigo cadastrado\n");
+                printf("m ERRO nenhum amigo cadastrado\n");
+            }
+        }
+        if(tipo == 2)
+        {
+            if(user->unlike != NULL)
+            {
+                fprintf(saida,"m ");
+                printf("m ");
+                scanAlphabetical(user->like, saida, top);
+                fprintf(saida, "\n");
+                printf("\n");
+            }
+            else
+            {
+                fprintf(saida, "m ERRO nenhum amigo cadastrado\n");
+                printf("m ERRO nenhum amigo cadastrado\n");
+            }
+        }
+        else
+        {
+            fprintf(saida, "m ERRO tipo invalido\n");
+            printf("m ERRO tipo invalido\n");
+        }
+    }
+    else
+    {
+        fprintf(saida, "m ERRO usuario nao cadastrado\n");
+        printf("m ERRO usuario nao cadastrado\n");
+    }
+};
+
+int scanAlphabetical(UserTree* t, FILE *saida, int top)
+{
+    int cont = 0;
+    if(top == 0)
+    {
+        if(t != NULL)
+        {
+            cont = scanAlphabetical(t->esq, saida, top);
+            fprintf(saida, "%s ", t->aUser->name);
+            printf("%s ", t->aUser->name);
+            cont = scanAlphabetical(t->dir, saida, top);
+        }
+    }
+    else if(t != NULL)
+        {
+            if(cont < top)
+            {
+            cont = scanAlphabetical(t->esq, saida, top);
+            fprintf(saida, "%s ", t->aUser->name);
+            printf("%s ", t->aUser->name);
+            cont ++;
+            cont = scanAlphabetical(t->dir, saida, top);
+            }
+        }
+    return cont;
 }
