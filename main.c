@@ -3,7 +3,7 @@
 #include <string.h>
 #include "structuser.h"
 #include "post.h"
-#define POST_SIZE 1000
+#define POST_SIZE 80
 
 /* Variáveis globais */
 PostList* _pPostList;
@@ -28,9 +28,10 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top);
 // top é o numero de usuários exibidos (-1 para todos)
 int getUsersOrdered(UserTree *tree, int ord, int top);
 
-
+/* exibe amigos da lista like (tipo = 1), unlike (tipo =2). Top = 0 -> todos, top = n -> imprime n usuários */
 void showFriends(char nome1[], int tipo, int top, FILE *saida);
 
+/* caminhamento central à esquerda com decremento de top */
 int scanAlphabetical(UserTree* t, FILE *saida, int top);
 
 int main()
@@ -122,7 +123,7 @@ void getOperation(FILE *arq, FILE *saida)
         }
         break;
 
-       case 'm':
+        case 'm':
         {
             fscanf(arq, "%s %d %d", nome1, &i, &j);
             showFriends(nome1, i, j, saida);
@@ -222,7 +223,8 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
     {
         for(aux = pList; aux != NULL; aux = aux->next)      // percorre lista de posts
         {
-            if(top != 0) {
+            if(top != 0)
+            {
                 cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
                 if(cmp == 0)
                 {
@@ -231,7 +233,8 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
                 }
                 else
                 {
-                    if(tipo == 0 || tipo == 1) {
+                    if(tipo == 0 || tipo == 1)
+                    {
                         userAux = Consulta(aux->post.usrName, user->like);
                         if(userAux != NULL)     // se não, testa se está na lista like
                         {
@@ -252,7 +255,9 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
                     }
                 }
 
-            } else {
+            }
+            else
+            {
                 return 1;
             }
         }
@@ -265,21 +270,30 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
 }
 
 /* imprime os top primeiros usuários, top = -1 para imprimir todos */
-int getUsersOrdered(UserTree* tree, int ord, int top) {
+int getUsersOrdered(UserTree* tree, int ord, int top)
+{
 
-    if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL) {
+    if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL)
+    {
         return top;
-    } else {
-        if(ord == 2) {
+    }
+    else
+    {
+        if(ord == 2)
+        {
             top = getUsersOrdered(tree->dir, ord, top);
-            if(top != 0) {
+            if(top != 0)
+            {
                 printf("%s\n", tree->aUser->name);
                 top--;
                 top = getUsersOrdered(tree->esq, ord, top);
             }
-        } else if(ord == 1) {
+        }
+        else if(ord == 1)
+        {
             top = getUsersOrdered(tree->esq, ord, top);
-            if(top != 0) {
+            if(top != 0)
+            {
                 printf("%s\n", tree->aUser->name);
                 top--;
                 top = getUsersOrdered(tree->dir, ord, top);
@@ -293,6 +307,8 @@ int getUsersOrdered(UserTree* tree, int ord, int top) {
 void showFriends(char nome1[], int tipo, int top, FILE *saida)
 {
     User *user;
+    if(top == 0)
+        top = -1;  // top set -1 -> exibir todos os usuários da lista like ou unlike
     if((user = Consulta(nome1, _userTree)) != NULL) // usuário na base
     {
         if(tipo == 1) // lista like
@@ -311,7 +327,7 @@ void showFriends(char nome1[], int tipo, int top, FILE *saida)
                 printf("m ERRO nenhum amigo cadastrado\n");
             }
         }
-        if(tipo == 2) // lista unlike
+        else if(tipo == 2) // lista unlike
         {
             if(user->unlike != NULL && user->unlike != NodoNULL) // unlike não é uma arv. vazia
             {
@@ -343,27 +359,23 @@ void showFriends(char nome1[], int tipo, int top, FILE *saida)
 /* caminhamento central à esquerda com decremento de top */
 int scanAlphabetical(UserTree* t, FILE *saida, int top)
 {
-    int cont = 0;
-    if(top == 0) // exibe todos
+    if(t != NULL && t != NodoNULL && t->aUser != NULL) // ainda não é NULL
     {
-        if(t != NULL && t != NodoNULL) // ainda não é NULL
+        if(top == -1) // exibe todos
         {
-            cont = scanAlphabetical(t->esq, saida, top); //varre esquerda
+            top = scanAlphabetical(t->esq, saida, top); //varre esquerda
             fprintf(saida, "%s ", t->aUser->name); // imprime raiz no arquivo
             printf("%s ", t->aUser->name);
-            cont = scanAlphabetical(t->dir, saida, top); // varre direita
+            top = scanAlphabetical(t->dir, saida, top); // varre direita
         }
-    }
-    else if(t != NULL && t != NodoNULL) // ainda não é null
+        else if(top != 0) // while cont < top
         {
-            if(cont < top) // while cont < top
-            {
-            cont = cont + scanAlphabetical(t->esq, saida, top); // esquerda
+            top = scanAlphabetical(t->esq, saida, top); // esquerda
             fprintf(saida, "%s ", t->aUser->name); // imprime no arquivo
             printf("%s ", t->aUser->name);
-            cont ++; // incrementa número de usuários impressões
-            cont = cont + scanAlphabetical(t->dir, saida, top); // varre direita
-            }
+            top--; // decrementa número de usuários a imprimir
+            top = scanAlphabetical(t->dir, saida, top); // varre direita
         }
-    return cont;
+    }
+    return top;
 }
