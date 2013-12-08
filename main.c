@@ -19,8 +19,14 @@ int insertFriend(char nome1[], char nome2[], int tipo);
 // salva o post de um usuário
 int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi);
 
-// imprime mensagens de um usuário, de seus amigos e de seus inimigos
-int showPanel(PostList* pList, char usr_name[NAME_SIZE]);
+/* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir
+top = quantidade de mensagens mostradas (-1 para todas)
+tipo = (1 para like, 2 - unlike, 0 - todas)*/
+int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top);
+
+// imprime o nome dos usuários na ordem dada (1 - alfabetica, 2 - alfabetica inversa)
+// top é o numero de usuários exibidos (-1 para todos)
+int getUsersOrdered(UserTree *tree, int ord, int top);
 
 int main()
 {
@@ -197,8 +203,10 @@ int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int vi
     }
 };
 
-/* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir*/
-int showPanel(PostList* pList, char usr_name[NAME_SIZE])
+/* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir
+top = quantidade de mensagens mostradas (-1 para todas)
+tipo = (1 para like, 2 - unlike, 0 - todas)*/
+int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
 {
     User* user, *userAux;
     PostList* aux;
@@ -208,26 +216,38 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE])
     {
         for(aux = pList; aux != NULL; aux = aux->next)      // percorre lista de posts
         {
-            cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
-            if(cmp == 0)
-            {
-                printf("%s\n", aux->post.msg);             // se sim, mostra a mensagem
-            }
-            else
-            {
-                userAux = Consulta(aux->post.usrName, user->like);
-                if(userAux != NULL)     // se não, testa se está na lista like
+            if(top != 0) {
+                cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
+                if(cmp == 0)
                 {
-                    printf("%s\n", aux->post.msg);
+                    printf("%s\n", aux->post.msg);             // se sim, mostra a mensagem
+                    top--;          // decrementa contador
                 }
                 else
                 {
-                    userAux = Consulta(aux->post.usrName, user->unlike);
-                    if (userAux != NULL)   // se não, testa se está na lista unlike
+                    if(tipo == 0 || tipo == 1) {
+                        userAux = Consulta(aux->post.usrName, user->like);
+                        if(userAux != NULL)     // se não, testa se está na lista like
+                        {
+                            printf("%s\n", aux->post.msg);
+                            top--;          // decrementa contador
+
+                        }
+                    }
+                    else if (tipo == 0 || tipo == 2)
                     {
-                        printf("%s\n", aux->post.msg);
+                        userAux = Consulta(aux->post.usrName, user->unlike);
+                        if (userAux != NULL)   // se não, testa se está na lista unlike
+                        {
+                            printf("%s\n", aux->post.msg);
+                            top--;          // decrementa contador
+
+                        }
                     }
                 }
+
+            } else {
+                return 1;
             }
         }
         return 1;
