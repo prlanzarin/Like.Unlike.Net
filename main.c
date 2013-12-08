@@ -289,78 +289,80 @@ int getUsersOrdered(UserTree* tree, int ord, int top) {
     return top;
 }
 
+/* exibe amigos da lista like (tipo = 1), unlike (tipo =2). Top = 0 -> todos, top = n -> imprime n usuários */
 void showFriends(char nome1[], int tipo, int top, FILE *saida)
 {
     User *user;
-    if((user = Consulta(nome1, _userTree)) != NULL)
+    if((user = Consulta(nome1, _userTree)) != NULL) // usuário na base
     {
-        if(tipo == 1)
+        if(tipo == 1) // lista like
         {
-            if(user->like != NULL)
+            if(user->like != NULL && user->like != NodoNULL) // like não é arv. vazia
             {
                 fprintf(saida,"m ");
                 printf("m ");
-                scanAlphabetical(user->like, saida, top);
+                scanAlphabetical(user->like, saida, top); // imprime usuários na ordem alfabética
                 fprintf(saida, "\n");
                 printf("\n");
             }
             else
             {
-                fprintf(saida, "m ERRO nenhum amigo cadastrado\n");
+                fprintf(saida, "m ERRO nenhum amigo cadastrado\n"); // like é vazia
                 printf("m ERRO nenhum amigo cadastrado\n");
             }
         }
-        if(tipo == 2)
+        if(tipo == 2) // lista unlike
         {
-            if(user->unlike != NULL)
+            if(user->unlike != NULL && user->unlike != NodoNULL) // unlike não é uma arv. vazia
             {
                 fprintf(saida,"m ");
                 printf("m ");
-                scanAlphabetical(user->like, saida, top);
+                scanAlphabetical(user->like, saida, top); // imprime usuários no arquivo em ordem alfabética
                 fprintf(saida, "\n");
                 printf("\n");
             }
             else
             {
-                fprintf(saida, "m ERRO nenhum amigo cadastrado\n");
+                fprintf(saida, "m ERRO nenhum amigo cadastrado\n"); // unlike vazia
                 printf("m ERRO nenhum amigo cadastrado\n");
             }
         }
         else
         {
-            fprintf(saida, "m ERRO tipo invalido\n");
+            fprintf(saida, "m ERRO tipo invalido\n"); // tipo != 1 ou 2
             printf("m ERRO tipo invalido\n");
         }
     }
     else
     {
-        fprintf(saida, "m ERRO usuario nao cadastrado\n");
+        fprintf(saida, "m ERRO usuario nao cadastrado\n"); // usuário não está na base
         printf("m ERRO usuario nao cadastrado\n");
     }
 };
 
+/* caminhamento central à esquerda com decremento de top */
 int scanAlphabetical(UserTree* t, FILE *saida, int top)
 {
     int cont = 0;
-    if(top == 0)
+    if(top == 0) // exibe todos
     {
-        if(t != NULL)
+        if(t != NULL && t != NodoNULL) // ainda não é NULL
         {
-            cont = scanAlphabetical(t->esq, saida, top);
-            fprintf(saida, "%s ", t->aUser->name);
+            cont = scanAlphabetical(t->esq, saida, top); //varre esquerda
+            fprintf(saida, "%s ", t->aUser->name); // imprime raiz no arquivo
             printf("%s ", t->aUser->name);
-            cont = scanAlphabetical(t->dir, saida, top);
+            cont = scanAlphabetical(t->dir, saida, top); // varre direita
         }
     }
-    else if(t != NULL)
+    else if(t != NULL && t != NodoNULL) // ainda não é null
         {
-            if(cont < top)
+            if(cont < top) // while cont < top
             {
-            cont = scanAlphabetical(t->esq, saida, top);
-            fprintf(saida, "%s ", t->aUser->name);
+            cont = cont + scanAlphabetical(t->esq, saida, top); // esquerda
+            fprintf(saida, "%s ", t->aUser->name); // imprime no arquivo
             printf("%s ", t->aUser->name);
-            cont ++;
-            cont = scanAlphabetical(t->dir, saida, top);
+            cont ++; // incrementa número de usuários impressões
+            cont = cont + scanAlphabetical(t->dir, saida, top); // varre direita
             }
         }
     return cont;
