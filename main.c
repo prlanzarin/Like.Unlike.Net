@@ -13,6 +13,9 @@ UserTree* _userTree = NULL;
 // le comando no arquivo e seleciona a operação
 void getOperation(FILE *arq, FILE *saida);
 
+// insere amigo
+int insertFriend(char nome1[], char nome2[], int tipo);
+
 // salva o post de um usuário
 int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi);
 
@@ -51,7 +54,7 @@ void getOperation(FILE *arq, FILE *saida)
 {
     User* user;
     char nome1[NAME_SIZE], nome2[NAME_SIZE], post[POST_SIZE];
-    int i, j;
+    int i, j, ret;
     while(!feof(arq))
     {
         switch(fgetc(arq))
@@ -86,8 +89,25 @@ void getOperation(FILE *arq, FILE *saida)
         case 'a':
         {
             fscanf(arq, "%s %s %d", nome1, nome2, &i);
-            //chamada da função insertFriend
-            printf("Você quis adicionar um amigo ao usuário %s. O amigo era %s. Você quis adicionar ele na lista %d (1 = Like, 2 = UnLike)\n", nome1, nome2, i);
+            ret = insertFriend(nome1, nome2, i);
+            if(ret == 1)
+            {
+                if(i == 1)
+                {
+                    fprintf(saida, "a amigo inserido com sucesso\n");
+                    printf("a amigo inserido com sucesso\n");
+                }
+                else
+                {
+                    fprintf(saida, "a rival inserido com sucesso\n");
+                    printf("a rival inserido com sucesso\n");
+                }
+            }
+            else
+            {
+                fprintf(saida, "a ERRO usuario nao cadastrado\n");
+                printf("a ERRO usuario nao cadastrado\n");
+            }
         }
         break;
 
@@ -137,42 +157,83 @@ void getOperation(FILE *arq, FILE *saida)
     }
 };
 
+/* Insere o amigo nome2 no usuário nome1 de acordo com o tipo (1 - LIKE/ 2- Unlike)
+    Retorna 0 se não foi inserido (nome1 ou nome2 não está na rede ou nome2 já está
+    na lista like ou unlike de nome1 */
+int insertFriend(char nome1[], char nome2[], int tipo)
+{
+    User *user, *amigo;
+    int inserted = 0;
+    if((user = Consulta(nome1, _userTree)) != NULL && (amigo = Consulta(nome2, _userTree)) != NULL) // verifica se existem
+    {
+        if(Consulta(nome2, user->like) == NULL && Consulta(nome2, user->unlike) == NULL) // verifica se já não é amigo
+        {
+            if(tipo == 1) // lista like
+            {
+                Insere(user->like, nome2);
+                inserted = 1;
+            }
+            else if(tipo == 2) //lista unlike
+            {
+                Insere(user->unlike, nome2);
+                inserted = 1;
+            }
+        }
+    }
+    return inserted;
+};
 
 /* insere post na lista de posts dada uma pList inicializada */
-int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi) {
-    if (Consulta(usr_name, _userTree) != NULL) {       // testa se usuário existe
+int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int visi)
+{
+    if (Consulta(usr_name, _userTree) != NULL)         // testa se usuário existe
+    {
         pList = plInsert(pList, usr_name, text, visi);
         return 1;
-    } else {
+    }
+    else
+    {
         return 0;       // retorna 0 se usuário não existir
     }
-}
+};
 
 /* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir*/
-int showPanel(PostList* pList, char usr_name[NAME_SIZE]) {
+int showPanel(PostList* pList, char usr_name[NAME_SIZE])
+{
     User* user, *userAux;
     PostList* aux;
     int cmp;
     user = Consulta(usr_name, _userTree);
-    if (user != NULL) {       // testa se usuário existe
-        for(aux = pList; aux != NULL; aux = aux->next) {    // percorre lista de posts
+    if (user != NULL)         // testa se usuário existe
+    {
+        for(aux = pList; aux != NULL; aux = aux->next)      // percorre lista de posts
+        {
             cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
-            if(cmp == 0) {
+            if(cmp == 0)
+            {
                 printf("%s\n", aux->post.msg);             // se sim, mostra a mensagem
-            } else {
+            }
+            else
+            {
                 userAux = Consulta(aux->post.usrName, user->like);
-                if(userAux != NULL) {   // se não, testa se está na lista like
+                if(userAux != NULL)     // se não, testa se está na lista like
+                {
                     printf("%s\n", aux->post.msg);
-                } else {
+                }
+                else
+                {
                     userAux = Consulta(aux->post.usrName, user->unlike);
-                    if (userAux != NULL) { // se não, testa se está na lista unlike
+                    if (userAux != NULL)   // se não, testa se está na lista unlike
+                    {
                         printf("%s\n", aux->post.msg);
                     }
                 }
             }
         }
         return 1;
-    } else {
+    }
+    else
+    {
         return 0;       // retorna 0 se usuário não existir
     }
-}
+};
