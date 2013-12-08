@@ -1,0 +1,88 @@
+e 1 0
+e 2 10
+i neymar
+i robinho
+i zidani
+i messi
+i cristianoronaldo
+i neymar
+i prandelli
+i juliocesar
+i ozil
+e 1 0
+e 2 0
+e 1 5
+m neymar 1 0
+m ribery 2 0 
+a ribery neymar 1
+a ribery neymar 2
+a neymar ribery 
+a neymar robinho 1
+a neymar zidani 1
+a neymar messi 1
+a neymar cristianoronaldo 1
+a neymar juliocesar 2
+a neymar ozil 2
+a robinho neymar 1
+a robinho zidani 1
+a robinho messi 1
+a robinho cristianoronaldo 1
+a robinho prandelli 2
+a zidani neymar 1
+a zidani robinho 1
+a zidani messi 2
+a zidani cristianoronaldo 2
+a messi neymar 1
+a messi robinho 1
+a messi zidani 2
+a messi cristianoronaldo 2
+a cristianoronaldo neymar 1
+a cristianoronaldo robinho 1
+a cristianoronaldo zidani 2
+a cristianoronaldo messi 2
+m neymar 1 0
+m neymar 2 0
+m neymar 1 2
+m robinho 1 3
+m robinho 2 1
+m robinho 2 0 
+m messi 2 0
+m zidani 1 0
+m cristianoronaldo 1 0
+t neymar "Nao viemos aqui a passeio" 0
+t neymar "Eh um ciclo a bola eh redonda" 0
+t neymar "Ficar aqui ate o fim da minha carreira seria um presente bom pois sou torcedor do Santos" 1
+t neymar "Sou so mais um que deixa o futebol um pouquinho mais bonito" 2
+t neymar "O robinho eh meu idolo ele sempre vai ser melhor que eu" 2
+t neymar "Tenho o meu jeito nao imito nem tento parecer ninguem" 1
+t zidani "Creio que nao valho tudo isso" 2
+t ozil "Viva Alemanha" 0
+t zidani "Nao me arrependo de nada" 1
+t zidani "Viva Franca" 0
+t messi "Barcelona eh a minha vida eles me trouxeram ate onde estou hoje" 1
+t messi "Eu corri para voltar antes da hora" 2
+t messi "Argentina campea" 0
+t cristianoronaldo "Sou melhor que Messi e o Real melhor que o Barca" 0
+t cristianoronaldo "Eu s— quero ganhar e sempre jogar bem" 2
+p neymar 1 0
+p neymar 2 0
+p neymar 0 0
+p neymar 0 4
+p ribery 0 0 
+p ozil 0 0 
+p juliocesar 0 0 
+p zidani 1 0
+p messi 2 0 
+p zidani 1 3
+c ribery 0 0 
+c ozil 0 0 
+c ozil 1 0
+c neymar 2 0
+c neymar 1 0
+c neymar 1 2
+c neymar 0 0
+c zidani 2 0
+c messi 2 0 
+r 1 0
+r 2 0
+r 0 0

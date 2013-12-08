@@ -1,0 +1,90 @@
+e 1 0
+e 2 10
+i hommer
+i margie
+i bart
+i lisa
+i maggie
+i hommer
+i abbie
+i bill
+i flanders
+e 1 0
+e 2 0
+e 1 5
+m hommer 1 0
+m hibbert 2 0 
+a hibbert hommer 1
+a hibbert hommer 2
+a hommer hibbert 
+a hommer margie 1
+a hommer bart 1
+a hommer lisa 1
+a hommer maggie 1
+a hommer bill 2
+a hommer flanders 2
+a margie hommer 1
+a margie bart 1
+a margie lisa 1
+a margie maggie 1
+a margie abbie 2
+a bart hommer 1
+a bart margie 1
+a bart lisa 2
+a bart maggie 2
+a lisa hommer 1
+a lisa margie 1
+a lisa bart 2
+a lisa maggie 2
+a maggie hommer 1
+a maggie margie 1
+a maggie bart 2
+a maggie lisa 2
+m hommer 1 0
+m hommer 2 0
+m hommer 1 2
+m margie 1 3
+m margie 2 1
+m margie 2 0 
+m lisa 2 0
+m bart 1 0
+m maggie 1 0
+t hommer "Preguica e o ato de descancar antes de estar cansado" 0
+t hommer "Eu nao acredito em duendes, eles mentem muito" 0
+t hommer "Eu não deveria dirigir! espera ai, eu não deveria me ouvir, estou bebado" 1
+t hommer "O sonho acabou... mais ainda tem pao doce" 2
+t hommer "Um brinde a cerveja: a solução e a causa de todo os nossos problemas" 2
+t hommer "Criancas, voces tentaram e falharam miseravelmente. A licao e: nunca tente" 1
+t bart "Eu não fiz isso. Ninguém me viu fazendo isso. Vocês não podem provar nada" 2
+t flanders "Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" 0
+t bart "Nao entendo essas pessoas que so pensam em dinheiro, fama e sucesso tambem sao importantes" 1
+t bart "Eu nao estava mentindo! Estava escrevendo ficcao com a boca" 0
+t lisa "A amizade é um amor que nunca morre" 1
+t lisa "É fácil reprovar uma ideia, difícil é ter uma" 2
+t lisa "Eu não sou uma pessoa que se impressiona facilmente. Hey, olhem! Um carro azul!!!" 0
+t maggie "daddy" 0
+t maggie "Suck! Suck!" 2
+p hommer 1 0
+p hommer 2 0
+p hommer 0 0
+p hommer 0 4
+p hibbert 0 0 
+p flanders 0 0 
+p bill 0 0 
+p bart 1 0
+p lisa 2 0 
+p bart 1 3
+c hibbert 0 0 
+c flanders 0 0 
+c flanders 1 0
+c hommer 2 0
+c hommer 1 0
+c hommer 1 2
+c hommer 0 0
+c bart 2 0
+c lisa 2 0 
+r 1 0
+r 2 0
+r 0 0
+
+

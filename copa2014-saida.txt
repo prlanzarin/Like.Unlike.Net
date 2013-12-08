@@ -1,0 +1,154 @@
+e ERRO nenhum usuario cadastrado
+e ERRO nenhum usuario cadastrado
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i ERRO usuario ja cadastrado
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+e cristianoronaldo juliocesar messi neymar ozil prandelli robinho zidani 
+e zidani robinho prandelli ozil neymar messi juliocesar cristianoronaldo
+e cristianoronaldo juliocesar messi neymar ozil
+m ERRO nenhum amigo cadastrado 
+m ERRO usuario nao cadastrado
+a ERRO usuario nao cadastrado
+a ERRO usuario nao cadastrado
+a ERRO usuario nao cadastrado
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+m cristianoronaldo messi robinho zidani
+m juliocesar ozil 
+m cristianoronaldo messi
+m cristianoronaldo messi neymar 
+m prandelli 
+m prandelli 
+m cristianoronaldo zidani
+m neymar robinho 
+m neymar robinho
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+p
+"Eu s— quero ganhar e sempre jogar bem" cristianoronaldo
+"Sou melhor que Messi e o Real melhor que o Barca" cristianoronaldo
+"Argentina campea" messi
+"Eu corri para voltar antes da hora" messi
+"Barcelona eh a minha vida eles me trouxeram ate onde estou hoje" messi
+"Viva Franca" zidani
+"Nao me arrependo de nada" zidani
+"Creio que nao valho tudo isso" zidani
+"Tenho o meu jeito nao imito nem tento parecer ninguem" neymar
+"O robinho eh meu idolo ele sempre vai ser melhor que eu" neymar
+"Sou so mais um que deixa o futebol um pouquinho mais bonito" neymar
+"Ficar aqui ate o fim da minha carreira seria um presente bom pois sou torcedor do Santos" neymar
+"Eh um ciclo a bola eh redonda" neymar
+"Nao viemos aqui a passeio" neymar
+p 
+"Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" ozil 
+"Tenho o meu jeito nao imito nem tento parecer ninguem" neymar
+"O robinho eh meu idolo ele sempre vai ser melhor que eu" neymar
+"Sou so mais um que deixa o futebol um pouquinho mais bonito" neymar
+"Ficar aqui ate o fim da minha carreira seria um presente bom pois sou torcedor do Santos" neymar
+"Eh um ciclo a bola eh redonda" neymar
+"Nao viemos aqui a passeio" neymar
+// p neymar 0 0
+"Eu s— quero ganhar e sempre jogar bem" cristianoronaldo 
+"Sou melhor que Messi e o Real melhor que o Barca" cristianoronaldo
+"Argentina campea" messi
+"Eu corri para voltar antes da hora" messi
+"Barcelona eh a minha vida eles me trouxeram ate onde estou hoje" messi
+"Viva Franca" zidani
+"Nao me arrependo de nada" zidani
+"Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" ozil
+"Creio que nao valho tudo isso" zidani
+"Tenho o meu jeito nao imito nem tento parecer ninguem" neymar
+"O robinho eh meu idolo ele sempre vai ser melhor que eu" neymar
+"Sou so mais um que deixa o futebol um pouquinho mais bonito" neymar
+"Ficar aqui ate o fim da minha carreira seria um presente bom pois sou torcedor do Santos" neymar
+"Eh um ciclo a bola eh redonda" neymar
+"Nao viemos aqui a passeio" neymar
+p
+"Eu s— quero ganhar e sempre jogar bem" cristianoronaldo 
+"Sou melhor que Messi e o Real melhor que o Barca" cristianoronaldo
+"Argentina campea" messi
+"Eu corri para voltar antes da hora" messi
+p ERRO usuario nao cadastrado
+p "Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" ozil 
+p ERRO postagem vazia
+p 
+"Viva Franca" zidani
+"Nao me arrependo de nada" zidani
+"Creio que nao valho tudo isso" zidani
+"Tenho o meu jeito nao imito nem tento parecer ninguem" neymar
+"O robinho eh meu idolo ele sempre vai ser melhor que eu" neymar
+"Sou so mais um que deixa o futebol um pouquinho mais bonito" neymar
+"Ficar aqui ate o fim da minha carreira seria um presente bom pois sou torcedor do Santos" neymar
+"Eh um ciclo a bola eh redonda" neymar
+"Nao viemos aqui a passeio" neymar
+p  
+"Eu s— quero ganhar e sempre jogar bem" cristianoronaldo 
+"Sou melhor que Messi e o Real melhor que o Barca" cristianoronaldo
+"Argentina campea" messi
+"Eu corri para voltar antes da hora" messi
+"Barcelona eh a minha vida eles me trouxeram ate onde estou hoje" messi
+"Viva Franca" zidani
+"Nao me arrependo de nada" zidani
+"Creio que nao valho tudo isso" zidani
+p
+"Viva Franca" zidani
+"Nao me arrependo de nada" zidani
+"Creio que nao valho tudo isso" zidani
+c ERRO usuario nao cadastrado
+c ERRO lista vazia
+c ERRO lista vazia
+c juliocesar ozil
+c neymar robinho zidani messi cristianoronaldo
+c neymar robinho
+c zidani neymar messi cristianoronaldo robinho prandelli juliocesar ozil
+c zidani messi cristianoronaldo
+c zidani messi cristianoronaldo
+r neymar robinho zidani messi cristianoronaldo
+r zidani messi cristianoronaldo prandelli juliocesar ozil
+r zidani neymar messi cristianoronaldo robinho prandelli juliocesar ozil
+
+
+
+
+
+

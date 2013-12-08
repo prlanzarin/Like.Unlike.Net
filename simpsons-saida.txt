@@ -1,0 +1,154 @@
+e ERRO nenhum usuario cadastrado
+e ERRO nenhum usuario cadastrado
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i ERRO usuario ja cadastrado
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+i usuario cadastrado com sucesso
+e abbie bart bill flanders hommer lisa maggie margie
+e margie maggie lisa hommer flanders bill bart abbie
+e abbie bart bill flanders hommer 
+m ERRO nenhum amigo cadastrado 
+m ERRO usuario nao cadastrado
+a ERRO usuario nao cadastrado
+a ERRO usuario nao cadastrado
+a ERRO usuario nao cadastrado
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+a amigo inserido com sucesso
+a amigo inserido com sucesso
+a rival inserido com sucesso
+a rival inserido com sucesso
+m bart lisa maggie margie 
+m bill flanders 
+m bart margie
+m bart lisa hommer 
+m abbie
+m abbie
+m bart magie
+m hommer margie
+m hommer margie
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+t post inserido com sucesso
+p
+"Suck! Suck!" maggie
+"daddy" maggie
+"Eu não sou uma pessoa que se impressiona facilmente. Hey, olhem! Um carro azul!!!" lisa
+"É fácil reprovar uma ideia, difícil é ter uma" lisa
+"A amizade é um amor que nunca morre" lisa
+"Eu nao estava mentindo! Estava escrevendo ficcao com a boca" bart
+"Nao entendo essas pessoas que so pensam em dinheiro, fama e sucesso tambem sao importantes" bart
+"Eu não fiz isso. Ninguém me viu fazendo isso. Vocês não podem provar nada" bart
+"Criancas, voces tentaram e falharam miseravelmente. A licao e: nunca tente" hommer
+"Um brinde a cerveja: a solução e a causa de todo os nossos problemas" hommer
+"O sonho acabou... mais ainda tem pao doce" hommer
+"Eu não deveria dirigir! espera ai, eu não deveria me ouvir, estou bebado" hommer
+"Eu nao acredito em duendes, eles mentem muito" hommer
+"Preguica e o ato de descancar antes de estar cansado" hommer
+p 
+"Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" flanders 
+"Criancas, voces tentaram e falharam miseravelmente. A licao e: nunca tente" hommer
+"Um brinde a cerveja: a solução e a causa de todo os nossos problemas" hommer
+"O sonho acabou... mais ainda tem pao doce" hommer
+"Eu não deveria dirigir! espera ai, eu não deveria me ouvir, estou bebado" hommer
+"Eu nao acredito em duendes, eles mentem muito" hommer
+"Preguica e o ato de descancar antes de estar cansado" hommer
+// p hommer 0 0
+"Suck! Suck!" maggie 
+"daddy" maggie
+"Eu não sou uma pessoa que se impressiona facilmente. Hey, olhem! Um carro azul!!!" lisa
+"É fácil reprovar uma ideia, difícil é ter uma" lisa
+"A amizade é um amor que nunca morre" lisa
+"Eu nao estava mentindo! Estava escrevendo ficcao com a boca" bart
+"Nao entendo essas pessoas que so pensam em dinheiro, fama e sucesso tambem sao importantes" bart
+"Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" flanders
+"Eu não fiz isso. Ninguém me viu fazendo isso. Vocês não podem provar nada" bart
+"Criancas, voces tentaram e falharam miseravelmente. A licao e: nunca tente" hommer
+"Um brinde a cerveja: a solução e a causa de todo os nossos problemas" hommer
+"O sonho acabou... mais ainda tem pao doce" hommer
+"Eu não deveria dirigir! espera ai, eu não deveria me ouvir, estou bebado" hommer
+"Eu nao acredito em duendes, eles mentem muito" hommer
+"Preguica e o ato de descancar antes de estar cansado" hommer
+p
+"Suck! Suck!" maggie 
+"daddy" maggie
+"Eu não sou uma pessoa que se impressiona facilmente. Hey, olhem! Um carro azul!!!" lisa
+"É fácil reprovar uma ideia, difícil é ter uma" lisa
+p ERRO usuario nao cadastrado
+p "Eu sempre fiz tudo que a Biblia diz - mesmo as coisas que se contradizem" flanders 
+p ERRO postagem vazia
+p 
+"Eu nao estava mentindo! Estava escrevendo ficcao com a boca" bart
+"Nao entendo essas pessoas que so pensam em dinheiro, fama e sucesso tambem sao importantes" bart
+"Eu não fiz isso. Ninguém me viu fazendo isso. Vocês não podem provar nada" bart
+"Criancas, voces tentaram e falharam miseravelmente. A licao e: nunca tente" hommer
+"Um brinde a cerveja: a solução e a causa de todo os nossos problemas" hommer
+"O sonho acabou... mais ainda tem pao doce" hommer
+"Eu não deveria dirigir! espera ai, eu não deveria me ouvir, estou bebado" hommer
+"Eu nao acredito em duendes, eles mentem muito" hommer
+"Preguica e o ato de descancar antes de estar cansado" hommer
+p  
+"Suck! Suck!" maggie 
+"daddy" maggie
+"Eu não sou uma pessoa que se impressiona facilmente. Hey, olhem! Um carro azul!!!" lisa
+"É fácil reprovar uma ideia, difícil é ter uma" lisa
+"A amizade é um amor que nunca morre" lisa
+"Eu nao estava mentindo! Estava escrevendo ficcao com a boca" bart
+"Nao entendo essas pessoas que so pensam em dinheiro, fama e sucesso tambem sao importantes" bart
+"Eu não fiz isso. Ninguém me viu fazendo isso. Vocês não podem provar nada" bart
+p
+"Eu nao estava mentindo! Estava escrevendo ficcao com a boca" bart
+"Nao entendo essas pessoas que so pensam em dinheiro, fama e sucesso tambem sao importantes" bart
+"Eu não fiz isso. Ninguém me viu fazendo isso. Vocês não podem provar nada" bart
+c ERRO usuario nao cadastrado
+c ERRO lista vazia
+c ERRO lista vazia
+c bill flanders
+c hommer margie bart lisa maggie
+c hommer margie
+c bart hommer lisa maggie margie abbie bill flanders
+c bart lisa maggie
+c bart lisa maggie
+r hommer margie bart lisa maggie
+r bart lisa maggie abbie bill flanders
+r bart hommer lisa maggie margie abbie bill flanders
+
+
+
+
+
+
