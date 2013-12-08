@@ -42,12 +42,14 @@ int main()
 
     printf("Resultado do arquivo de entrada: \n");
     getOperation(input, saida);
-
+    fclose(input);
+    fclose(saida);
     return 0;
 }
 
 void getOperation(FILE *arq, FILE *saida)
 {
+    User* user;
     char nome1[NAME_SIZE], nome2[NAME_SIZE], post[POST_SIZE];
     int i, j;
     while(!feof(arq))
@@ -58,7 +60,8 @@ void getOperation(FILE *arq, FILE *saida)
         {
 
             fscanf(arq, "%s", nome1);
-            if(Consulta(nome1, _userTree) == NULL)
+            user = Consulta(nome1, _userTree);
+            if(user == NULL)
             {
                 _userTree = Insere(_userTree, nome1);
                 fprintf(saida, "i usuario cadastrado com sucesso\n");
