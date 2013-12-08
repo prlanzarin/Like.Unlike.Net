@@ -70,7 +70,6 @@ UserTree* InserePonteiro(UserTree* tree, User *amigo) {
 UserTree* x = tree;
 User* aUser;
             if(tree == NULL)  {
-                printf("T1\n");
                  // alocação de espaço
                  NodoNULL = (UserTree*) malloc(sizeof(UserTree));
                  x = (UserTree*) malloc(sizeof(UserTree));
@@ -104,7 +103,6 @@ User* aUser;
             };
 
             if(x != NodoNULL) return tree; // Nodo Ja Existe
-            printf("T2\n");
             x = (UserTree*) malloc(sizeof(UserTree));
             aUser = (User*) malloc(sizeof(User));  // aloca espaço para novo usuário
             aUser = amigo;  // nome do novo usuario
