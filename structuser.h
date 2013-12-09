@@ -10,7 +10,7 @@ struct user {
   struct userTree *like, *unlike;
 };
 
-typedef struct user User;
+typedef struct user User;x
 
 /* base de usuários: árvore Rubro-Negra */
 
@@ -25,13 +25,14 @@ typedef struct userTree UserTree;
 
 
 /* lista de amigos de um usuário */
-struct friendList {
+struct rankList {
   User *pUser;              // ponteiro para usuário
   int appearances;         // quantas vezes aparece
-  struct friendList *next;  // próximo elemento
+  int list;                // 1- like, 2- unlike, 0 - ambos
+  struct rankList *next;  // próximo elemento
+  struct rankList *prev;        // elemento anterior
 };
-
-typedef struct friendList FriendList;
+typedef struct rankList RankList;
 
 /* declaração do nodo NULL */
 static UserTree* NodoNULL = NULL;
@@ -46,15 +47,14 @@ UserTree* Remove(UserTree* tree, char name[]);
 void Destroi(UserTree* tree);
 
 // R-N, auxiliares
-
 UserTree* VerificaRN(UserTree* tree, char name[]);
 UserTree* RotacaoSimplesEsq(UserTree* tree);
 UserTree* RotacaoSimplesDir(UserTree* tree);
 void Desenha(UserTree* tree, int nivel);
 UserTree* Maior(UserTree* tree);
 UserTree* Menor(UserTree* tree);
-// LSE
 
+// LSE
 FriendList* cria_lista(void);
 FriendList* insere_ord(FriendList* flist, User user);
 void imprime(FriendList* flist);
