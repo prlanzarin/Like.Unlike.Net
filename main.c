@@ -22,11 +22,11 @@ int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int vi
 /* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir
 top = quantidade de mensagens mostradas (-1 para todas)
 tipo = (1 para like, 2 - unlike, 0 - todas)*/
-int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top);
+int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE *output);
 
 // imprime o nome dos usuários na ordem dada (1 - alfabetica, 2 - alfabetica inversa)
 // top é o numero de usuários exibidos (-1 para todos)
-int getUsersOrdered(UserTree *tree, int ord, int top);
+int getUsersOrdered(UserTree *tree, int ord, int top, FILE *output);
 
 
 void showFriends(char nome1[], int tipo, int top, FILE *saida);
@@ -212,8 +212,9 @@ int post(PostList* pList, char usr_name[NAME_SIZE], char text[POST_SIZE], int vi
 /* mostra posts de um usuário e de seus amigos retorna 0 se usuário não existir
 top = quantidade de mensagens mostradas (-1 para todas)
 tipo = (1 para like, 2 - unlike, 0 - todas)*/
-int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
+int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE *output)
 {
+    fprintf(output, "p\n");
     User* user, *userAux;
     PostList* aux;
     int cmp;
@@ -226,7 +227,7 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
                 cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
                 if(cmp == 0)
                 {
-                    printf("%s\n", aux->post.msg);             // se sim, mostra a mensagem
+                    fprintf(output, "%s\n", aux->post.msg);             // se sim, mostra a mensagem
                     top--;          // decrementa contador
                 }
                 else
@@ -235,7 +236,7 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
                         userAux = Consulta(aux->post.usrName, user->like);
                         if(userAux != NULL)     // se não, testa se está na lista like
                         {
-                            printf("%s\n", aux->post.msg);
+                            fprintf(output, "%s\n", aux->post.msg);
                             top--;          // decrementa contador
 
                         }
@@ -245,7 +246,7 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
                         userAux = Consulta(aux->post.usrName, user->unlike);
                         if (userAux != NULL)   // se não, testa se está na lista unlike
                         {
-                            printf("%s\n", aux->post.msg);
+                            fprintf(output, "%s\n", aux->post.msg);
                             top--;          // decrementa contador
 
                         }
@@ -265,24 +266,24 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top)
 }
 
 /* imprime os top primeiros usuários, top = -1 para imprimir todos */
-int getUsersOrdered(UserTree* tree, int ord, int top) {
-
+int getUsersOrdered(UserTree* tree, int ord, int top, FILE *output) {
+    fprintf(output, "n\n");
     if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL) {
         return top;
     } else {
         if(ord == 2) {
-            top = getUsersOrdered(tree->dir, ord, top);
+            top = getUsersOrdered(tree->dir, ord, top, output);
             if(top != 0) {
-                printf("%s\n", tree->aUser->name);
+                fprintf(output, "%s\n", tree->aUser->name);
                 top--;
-                top = getUsersOrdered(tree->esq, ord, top);
+                top = getUsersOrdered(tree->esq, ord, top, output);
             }
         } else if(ord == 1) {
-            top = getUsersOrdered(tree->esq, ord, top);
+            top = getUsersOrdered(tree->esq, ord, top, output);
             if(top != 0) {
-                printf("%s\n", tree->aUser->name);
+                fprintf(output, "%s\n", tree->aUser->name);
                 top--;
-                top = getUsersOrdered(tree->dir, ord, top);
+                top = getUsersOrdered(tree->dir, ord, top, output);
             }
         }
     }
