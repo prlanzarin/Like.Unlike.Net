@@ -10,7 +10,7 @@ struct user {
   struct userTree *like, *unlike;
 };
 
-typedef struct user User;x
+typedef struct user User;
 
 /* base de usuários: árvore Rubro-Negra */
 
@@ -28,9 +28,8 @@ typedef struct userTree UserTree;
 struct rankList {
   User *pUser;              // ponteiro para usuário
   int appearances;         // quantas vezes aparece
-  int list;                // 1- like, 2- unlike, 0 - ambos
-  struct rankList *next;  // próximo elemento
-  struct rankList *prev;        // elemento anterior
+  struct rankList *prox;  // próximo elemento
+  struct rankList *ant;        // elemento anterior
 };
 typedef struct rankList RankList;
 
@@ -54,9 +53,10 @@ void Desenha(UserTree* tree, int nivel);
 UserTree* Maior(UserTree* tree);
 UserTree* Menor(UserTree* tree);
 
-// LSE
-FriendList* cria_lista(void);
-FriendList* insere_ord(FriendList* flist, User user);
-void imprime(FriendList* flist);
-FriendList* remover(FriendList* flist, char x[]);
-FriendList* destroi(FriendList* flist);
+// LDE para ranqueamento
+RankList* inicializa(void);
+int imprime(RankList* PtLista, int top, FILE *saida);
+RankList* insereOrd(RankList *PtLista, User *iuser);
+RankList* destroi(RankList* ptLista);
+RankList* Consulta_LDE(RankList* ptLista, char name[]);
+

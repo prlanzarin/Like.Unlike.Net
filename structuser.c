@@ -426,5 +426,112 @@ UserTree* Menor(UserTree* t)
     return t->pai;
 }
 
+/* =================================================================
+            FIM DA ESTRUTURA DA BASE DE USUÁRIOS
+                    (ÁRVORE RUBRO-NEGRA)
+   =================================================================
+         INÍCIO DA ESTRUTURA DO RANKING DE USUÁRIOS
+                (LISTA DUPLAMENTE ENCADEADA)
+   =================================================================*/
 
+RankList* inicializa(void)
+{
+    return NULL;
+};
+
+int imprime(RankList* PtLista, int top, FILE *saida)
+{
+    int ret = 0;
+    RankList* ptaux=PtLista;
+    if (PtLista == NULL)
+            ret = -1;
+    else
+    {
+        do
+        {
+            fprintf(saida, "%s ", ptaux->pUser->name);
+            printf("%s ", ptaux->pUser->name);
+            ptaux = ptaux->prox;
+            top--;
+        }
+        while (ptaux != NULL && top != 0);
+        fprintf(saida, "\n");
+        printf("\n");
+        ret = 1;
+    }
+    return ret;
+}
+
+
+RankList* insereOrd(RankList *PtLista, User *iuser)
+{
+    RankList *Pt, *PtAux, *user, *aux2;
+    Pt = (RankList*) malloc(sizeof(RankList));	//aloca novo nodo
+    Pt->pUser = iuser;		//coloca dados no novo nodo
+    if ((PtLista) == NULL)		//lista vazia
+    {
+        PtLista = Pt;
+        Pt->ant = NULL;
+        Pt->prox = NULL;
+        Pt->appearances = 1;
+    }
+    else  				// lista tem pelo menos um nodo
+    {
+        PtAux = PtLista;
+        user = Consulta_LDE(PtAux, iuser->name);			 //auxiliar no início da lista
+        if(user != NULL)
+        {
+            user->appearances++;
+            Pt = user->ant;
+            while(Pt != NULL && Pt->appearances < user->appearances)
+            {
+            aux2 = user->prox;
+            user->ant = Pt->ant;
+            user->prox = Pt;
+            if(user->ant == NULL)
+                PtLista = user;
+            else Pt->ant->prox = user;
+            if(aux2 != NULL)
+                aux2->ant = Pt;
+            Pt->ant = user;
+            Pt->prox = aux2;
+            Pt = user->ant;
+            }
+        }
+        else
+        {
+            while (PtAux->prox != NULL) 	//PtAux avança até o a posição certaser
+                PtAux=PtAux->prox;
+            PtAux->prox = Pt;
+            Pt->ant = PtAux;		//Encadeia Pt com PtAux
+            Pt->prox = NULL;
+            Pt->appearances++;
+        }
+    }
+    return PtLista;
+}
+
+RankList* destroi(RankList* ptLista)
+{
+    RankList *ptaux; //ponteiro auxiliar para percorrer a lista
+    while (ptLista != NULL)
+    {
+        ptaux = ptLista;
+        ptLista = ptLista->prox;
+        free(ptaux);
+    }
+    free(ptLista);
+    return NULL;
+}
+
+/* dada a string name, procura o usuário na lista. Se achá-lo, retorna seu ponteiro, se não, retorna NULL */
+RankList* Consulta_LDE(RankList* ptLista, char name[])
+{
+    RankList *ptaux = ptLista;
+    while ((strncmp(ptaux->pUser->name, name, 20) != 0 && ptaux->prox != NULL)) 	//Avança até serem iguais ou fim de lista
+        ptaux = ptaux->prox;
+    if(strncmp(ptaux->pUser->name, name, 20) != 0)     //testa se é fim de lista
+        return NULL; // se sim, ret NULL (não achou)
+    return ptaux; // else retorna ponteiro encontrado
+};
 
