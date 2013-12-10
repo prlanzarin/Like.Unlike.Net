@@ -65,7 +65,7 @@ int main()
 void getOperation(FILE *arq, FILE *saida)
 {
     User* user;
-    char nome1[NAME_SIZE], nome2[NAME_SIZE], post[POST_SIZE];
+    char nome1[NAME_SIZE], nome2[NAME_SIZE], post[1000];
     int i, j, ret;
     while(!feof(arq))
     {
@@ -93,7 +93,16 @@ void getOperation(FILE *arq, FILE *saida)
         case 'e':
         {
             fscanf(arq, "%d %d", &i, &j);
-            //chamada de função showUsers
+            fprintf(saida, "n ");
+            if(j == 0) {
+                ret = getUsersOrdered(_userTree, i, -1, saida);
+            } else {
+                ret = getUsersOrdered(_userTree, i, j, saida);
+            }
+            if(ret == -1 || ret == j) {
+                fprintf(saida, "ERRO nenhum usuario cadastrado");
+            }
+            fprintf(saida, "\n");
             printf("Você quis exibir os usuários da rede social na ordem %d e os %d primeiros usuários (0 = todos) \n", i, j);
         }
         break;
@@ -136,7 +145,12 @@ void getOperation(FILE *arq, FILE *saida)
             strcpy(nome1, strtok(post, " "));
             strcpy(post, strtok(NULL, "\""));
             i = atoi(strtok(NULL, " "));
-            //chamada da função postMessage
+            if(Consulta(nome1, _userTree) != NULL) {
+                _pPostList = plInsert(_pPostList, nome1, post, i);
+                fprintf(saida, "t post inserido com sucesso\n");
+            } else {
+                fprintf(saida, "t ERRO usuario nao cadastrado\n");
+            }
             printf("Você quis postar a mensagem - %s - emitida pelo usuário %s com a opção de visibilidade %d (0 - todos, 1 - Like, 2 - UnLike) \n", post, nome1, i);
         }
         break;
@@ -144,7 +158,14 @@ void getOperation(FILE *arq, FILE *saida)
         case 'p':
         {
             fscanf(arq, "%s %d %d", nome1, &i, &j);
-            // chamada da função showPanel
+            if(j == 0){
+                ret = showPanel(_pPostList, nome1, i, -1, saida);
+            } else {
+                ret = showPanel(_pPostList, nome1, i, j, saida);
+            }
+            if(ret == 0) {
+                fprintf(saida, "ERRO usuario nao cadastrado\n");
+            }
             printf("Você quis exibir o painel de mensagens do usuário %s, usando o parâmetro %d, (0 - Usuário, Like e UnLike), (1 - Usuário e Like), (2 - Usuário e UnLike) dos %d primeiros usuários (0 - todos) \n", nome1, i, j);
         }
         break;
@@ -189,7 +210,7 @@ int insertFriend(char nome1[], char nome2[], int tipo)
             }
             else if(tipo == 2) //lista unlike
             {
-                user->like = InserePonteiro(user->unlike, amigo);
+                user->unlike = InserePonteiro(user->unlike, amigo);
                 inserted = 1;
             }
         }
@@ -231,7 +252,7 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE
                 cmp = strncmp(usr_name, aux->post.usrName, NAME_SIZE);    // testa se que postou é o usuário selecionado
                 if(cmp == 0)
                 {
-                    fprintf(output, "%s\n", aux->post.msg);             // se sim, mostra a mensagem
+                    fprintf(output, "\"%s\" %s\n", aux->post.msg, aux->post.usrName);             // se sim, mostra a mensagem
                     top--;          // decrementa contador
                 }
                 else
@@ -241,7 +262,7 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE
                         userAux = Consulta(aux->post.usrName, user->like);
                         if(userAux != NULL)     // se não, testa se está na lista like
                         {
-                            fprintf(output, "%s\n", aux->post.msg);
+                            fprintf(output, "\"%s\" %s\n", aux->post.msg, aux->post.usrName);
                             top--;          // decrementa contador
 
                         }
@@ -251,7 +272,7 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE
                         userAux = Consulta(aux->post.usrName, user->unlike);
                         if (userAux != NULL)   // se não, testa se está na lista unlike
                         {
-                            fprintf(output, "%s\n", aux->post.msg);
+                            fprintf(output, "\"%s\" %s\n", aux->post.msg, aux->post.usrName);
                             top--;          // decrementa contador
 
                         }
@@ -274,21 +295,21 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE
 
 /* imprime os top primeiros usuários, top = -1 para imprimir todos */
 int getUsersOrdered(UserTree* tree, int ord, int top, FILE *output) {
-    fprintf(output, "n\n");
-    if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL) {
+
+    if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL) {   //testa se chegou em um nó folha ou no último nó que deveria ser exibido
         return top;
     } else {
-        if(ord == 2) {
+        if(ord == 2) {  // cetral-direita (ordem alfabetica inversa
             top = getUsersOrdered(tree->dir, ord, top, output);
             if(top != 0) {
-                fprintf(output, "%s\n", tree->aUser->name);
+                fprintf(output, "%s ", tree->aUser->name);
                 top--;
                 top = getUsersOrdered(tree->esq, ord, top, output);
             }
-        } else if(ord == 1) {
+        } else if(ord == 1) {   // central-esquerda(ordem alfabetica
             top = getUsersOrdered(tree->esq, ord, top, output);
             if(top != 0) {
-                fprintf(output, "%s\n", tree->aUser->name);
+                fprintf(output, "%s ", tree->aUser->name);
                 top--;
                 top = getUsersOrdered(tree->dir, ord, top, output);
             }
@@ -327,7 +348,7 @@ void showFriends(char nome1[], int tipo, int top, FILE *saida)
             {
                 fprintf(saida,"m ");
                 printf("m ");
-                scanAlphabetical(user->like, saida, top); // imprime usuários no arquivo em ordem alfabética
+                scanAlphabetical(user->unlike, saida, top); // imprime usuários no arquivo em ordem alfabética
                 fprintf(saida, "\n");
                 printf("\n");
             }
