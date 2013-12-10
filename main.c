@@ -176,7 +176,9 @@ int insertFriend(char nome1[], char nome2[], int tipo)
 {
     User *user, *amigo;
     int inserted = 0;
-    if((user = Consulta(nome1, _userTree)) != NULL && (amigo = Consulta(nome2, _userTree)) != NULL) // verifica se existem
+    user = Consulta(nome1, _userTree);
+    amigo = Consulta(nome2, _userTree);
+    if(user != NULL && amigo != NULL) // verifica se existem
     {
         if(Consulta(nome2, user->like) == NULL && Consulta(nome2, user->unlike) == NULL) // verifica se já não é amigo
         {
@@ -271,7 +273,6 @@ int showPanel(PostList* pList, char usr_name[NAME_SIZE], int tipo, int top, FILE
 }
 
 /* imprime os top primeiros usuários, top = -1 para imprimir todos */
-<<<<<<< HEAD
 int getUsersOrdered(UserTree* tree, int ord, int top, FILE *output) {
     fprintf(output, "n\n");
     if(top == 0 || tree == NULL || tree == NodoNULL || tree->aUser == NULL) {
