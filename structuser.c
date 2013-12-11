@@ -136,11 +136,15 @@ User* Consulta(char name[], UserTree* tree)
     else return NULL;
 };
 
-
-void Destroi(UserTree* tree)
+// destrói árvore
+void Destroi_Arv(UserTree* t)
 {
-
-}
+ if(t->esq != NULL)
+    Destroi_Arv(t->esq);
+ if(t->dir != NULL)
+    Destroi_Arv(t->dir);
+ free(t);
+};
 
 // R-N, auxiliares
 UserTree* VerificaRN(UserTree* t, char name[])
@@ -438,21 +442,21 @@ RankList* inicializa(void)
 {
     return NULL;
 };
-
+/* imprime a lista duplamente encadeada já com saída para o arquqivo e com decremento de top */
 int imprime(RankList* PtLista, int top, FILE *saida)
 {
     int ret = 0;
     RankList* ptaux=PtLista;
     if (PtLista == NULL)
-            ret = -1;
+            ret = -1;           // ERRO, lista vazia
     else
     {
         do
         {
             fprintf(saida, "%s ", ptaux->pUser->name);
             printf("%s ", ptaux->pUser->name);
-            ptaux = ptaux->prox;
-            top--;
+            ptaux = ptaux->prox;                // avança na lista
+            top--;                              // decrementa top
         }
         while (ptaux != NULL && top != 0);
         fprintf(saida, "\n");
@@ -481,16 +485,16 @@ RankList* insereOrd(RankList *PtLista, User *iuser)
         user = Consulta_LDE(PtAux, iuser->name);			 //auxiliar no início da lista
         if(user != NULL)
         {
-            user->appearances++;
+            user->appearances++;    // incrementa contador de aparições
             Pt = user->ant;
-            while(Pt != NULL && Pt->appearances < user->appearances)
+            while(Pt != NULL && (Pt->appearances < user->appearances))  // testa se appearances é maior que o anteior
             {
             aux2 = user->prox;
-            user->ant = Pt->ant;
-            user->prox = Pt;
-            if(user->ant == NULL)
-                PtLista = user;
-            else Pt->ant->prox = user;
+            user->ant = Pt->ant;            // em todo este trecho
+            user->prox = Pt;                // é feita a troca de posições
+            if(user->ant == NULL)           // entre o anterior e o user
+                PtLista = user;             // para refletir na reordenação
+            else Pt->ant->prox = user;      // da lista
             if(aux2 != NULL)
                 aux2->ant = Pt;
             Pt->ant = user;
@@ -500,7 +504,7 @@ RankList* insereOrd(RankList *PtLista, User *iuser)
         }
         else
         {
-            while (PtAux->prox != NULL) 	//PtAux avança até o a posição certaser
+            while (PtAux->prox != NULL) 	//PtAux avança até o fim e insere
                 PtAux=PtAux->prox;
             PtAux->prox = Pt;
             Pt->ant = PtAux;		//Encadeia Pt com PtAux

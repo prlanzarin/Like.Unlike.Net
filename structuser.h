@@ -43,7 +43,7 @@ UserTree* Insere(UserTree* tree, char name[]);
 UserTree* InserePonteiro(UserTree* tree, User *amigo);
 User* Consulta(char name[], UserTree* tree);
 UserTree* Remove(UserTree* tree, char name[]);
-void Destroi(UserTree* tree);
+void Destroi_Arv(UserTree* t);
 
 // R-N, auxiliares
 UserTree* VerificaRN(UserTree* tree, char name[]);

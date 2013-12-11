@@ -14,3 +14,4 @@ typedef struct postList PostList;
 
 PostList* plInicialize();
 PostList* plInsert(PostList*, char[50], char[500], int);
+PostList* destroi_posts(PostList* l);

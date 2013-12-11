@@ -22,3 +22,17 @@ PostList* plInsert(PostList* pList, char usrName[50], char msg[500], int visi) {
 
     return pList;
 }
+
+// destroi lista
+PostList* destroi_posts(PostList* l)
+{
+   PostList *ptaux; //ponteiro auxiliar para percorrer a lista
+   while (l != NULL)
+   {
+         ptaux = l;
+         l = l->next;
+         free(ptaux);
+   }
+   free(l);
+   return NULL;
+}
